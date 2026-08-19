@@ -377,12 +377,12 @@ function projeterDecaissement() {
 
     // 2. Calcul de l'impôt estimé (rentes + FERR)
     const revenuImposable = rentesFixes + ferrOblig;
-    const impotsEstimes = revenuImposable * 0.15; // Taux effectif estimé
+    const impotsEstimes = revenuImposable * 0.15;
 
-    // 3. Entrées nettes en poche
+    // 3. Entrées nettes disponibles
     const revenuNetDisponible = revenuImposable - impotsEstimes;
 
-    // 4. Besoins de retrait complémentaire (si dépenses > revenu net)
+    // 4. Besoin de retrait complémentaire
     const manqueAGagner = Math.max(0, depenses - revenuNetDisponible);
     let retraitExtra = 0;
 
@@ -411,7 +411,7 @@ function projeterDecaissement() {
         }
       }
 
-      // C) Si encore insuffisant : retraits FERR additionnels (avec gross-up d'impôt ~20%)
+      // C) Piger dans le FERR additionnel (avec gross-up d'impôt ~20%)
       if (resteAPromener > 0) {
         const reerTot = st.reerF + st.reerH;
         if (reerTot > 0) {
@@ -423,7 +423,7 @@ function projeterDecaissement() {
       }
     }
 
-    // 5. Application du rendement de fin d'année sur les soldes restants
+    // 5. Rendement annuel appliqué uniquement sur le solde NET restant
     st.reerF = Math.max(0, st.reerF) * (1 + inp.rendement);
     st.reerH = Math.max(0, st.reerH) * (1 + inp.rendement);
     st.celiF = Math.max(0, st.celiF) * (1 + inp.rendement);
@@ -708,7 +708,7 @@ function renderDetails() {
       <td>${fmt(l.capDebut)}</td>
       <td style="color:var(--teal);">${fmt(l.rentesFixes)}</td>
       <td style="color:var(--blue);">${fmt(l.ferrObligatoire)}</td>
-      <td style="color:var(--coral);">${fmt(l.retraitExtra)}</td>
+      <td style="color:var(--coral); font-weight:600;">${fmt(l.retraitExtra)}</td>
       <td>${fmt(l.depenses)}</td>
       <td>${fmt(l.impotsEstimes)}</td>
       <td style="font-weight:600; color:var(--gold);">${fmt(l.capFin)}</td>
