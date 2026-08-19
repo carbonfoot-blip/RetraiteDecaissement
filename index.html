@@ -288,50 +288,193 @@ body {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
 
+// ============================================================
+// CONFIGURATION DES DONNÉES PAR DÉFAUT (JSON INTÉGRÉ)
+// ============================================================
 const DEFAULT_INPUTS = {
-  prenomFemme: 'Sylvie', anneeNaissanceFemme: 1959,
-  prenomHomme: 'Claude',  anneeNaissanceHomme: 1955,
-  
-  reerFemme: 238281, celiFemme: 0, nonEnregFemme: 0,
-  reerHomme: 149298, celiHomme: 0, nonEnregHomme: 0,
-  
-  rrqFemme: 13364, psvFemme: 9024, pensionPDFemme: 0,
-  rrqHomme: 16667, psvHomme: 9024, pensionPDHomme: 16777,
-  
-  // NOUVEAUX CHAMPS DE REVENUS TEMPORAIRES ET VENTE
-  travailFemme: 0, travailFinAnneeFemme: 2028,
-  travailHomme: 0, travailFinAnneeHomme: 2028,
-  
-  venteMaisonMontant: 0,
-  venteMaisonAnnee: 2029,
-  
+  prenomFemme: "Sylvie",
+  anneeNaissanceFemme: 1959,
+  prenomHomme: "Claude",
+  anneeNaissanceHomme: 1955,
+  reerFemme: 238281,
+  celiFemme: 0,
+  nonEnregFemme: 0,
+  reerHomme: 149298,
+  celiHomme: 0,
+  nonEnregHomme: 0,
+  rrqFemme: 13364,
+  psvFemme: 9024,
+  pensionPDFemme: 0,
+  rrqHomme: 16667,
+  psvHomme: 9024,
+  pensionPDHomme: 16777,
   ageFinGogo: 72,
   ageFinSlowgo: 77,
   inflation: 0.023,
-  rendement: 0.04
+  rendement: 0.04,
+  travailFemme: 30000,
+  travailHomme: 10000,
+  travailFinAnneeFemme: 2027,
+  travailFinAnneeHomme: 2027,
+  venteMaisonAnnee: 2036,
+  venteMaisonMontant: 200000
 };
 
 const DEFAULT_BUDGET = {
   gogo: [
-    { cat: 'Habitation', items: [{ nom: 'Assurances Habitation', mensuel: 153.08 }, { nom: 'Taxes Municipales/scolaires', mensuel: 212.79 }, { nom: 'Propane', mensuel: 75 }, { nom: 'Mobilier&Déco&Reno', mensuel: 200 }, { nom: 'Hydro-Quebec', mensuel: 143.83 }] },
-    { cat: 'Vie courante', items: [{ nom: 'Épicerie', mensuel: 1500 }, { nom: 'Restaurants', mensuel: 300 }, { nom: 'Bell (Cellulaire/Internet/TV)', mensuel: 261.03 }, { nom: 'Spotify', mensuel: 13.99 }, { nom: 'Streaming', mensuel: 13.99 }, { nom: 'Coiffure', mensuel: 100 }, { nom: 'Amazon (Articles maison/Cadeaux)', mensuel: 200 }, { nom: 'Pharmacie', mensuel: 50 }, { nom: 'Entretien Voiture', mensuel: 200 }, { nom: 'Assurances Auto', mensuel: 366.25 }, { nom: 'Gaz Auto', mensuel: 850 }] },
-    { cat: 'Santé & Voyages', items: [{ nom: 'Assurances Privée', mensuel: 91.31 }, { nom: 'Dentiste', mensuel: 100 }, { nom: 'Optométriste', mensuel: 100 }, { nom: 'Voyage Hiver', mensuel: 600 }, { nom: 'Voyages Été', mensuel: 600 }] },
-    { cat: 'Loisir', items: [{ nom: 'Sports Été', mensuel: 400 }, { nom: 'Bateau', mensuel: 400 }, { nom: 'Sports Hiver', mensuel: 400 }] },
-    { cat: 'Autres', items: [{ nom: 'Fond de prévoyance', mensuel: 500 }] }
+    {
+      cat: "Habitation",
+      items: [
+        { nom: "Assurances Habitation", mensuel: 153.08 },
+        { nom: "Taxes Municipales/scolaires", mensuel: 212.79 },
+        { nom: "Propane", mensuel: 75 },
+        { nom: "Mobilier&Déco&Reno", mensuel: 200 },
+        { nom: "Hydro-Quebec", mensuel: 143.83 }
+      ]
+    },
+    {
+      cat: "Vie courante",
+      items: [
+        { nom: "Épicerie", mensuel: 1500 },
+        { nom: "Restaurants", mensuel: 300 },
+        { nom: "Bell (Cellulaire/Internet/TV)", mensuel: 261.03 },
+        { nom: "Spotify", mensuel: 13.99 },
+        { nom: "Streaming", mensuel: 13.99 },
+        { nom: "Coiffure", mensuel: 100 },
+        { nom: "Amazon (Articles maison/Cadeaux)", mensuel: 200 },
+        { nom: "Pharmacie", mensuel: 50 },
+        { nom: "Entretien Voiture", mensuel: 200 },
+        { nom: "Assurances Auto", mensuel: 366.25 },
+        { nom: "Gaz Auto", mensuel: 850 }
+      ]
+    },
+    {
+      cat: "Santé & Voyages",
+      items: [
+        { nom: "Assurances Privée", mensuel: 91.31 },
+        { nom: "Dentiste", mensuel: 100 },
+        { nom: "Optométriste", mensuel: 100 },
+        { nom: "Voyage Hiver", mensuel: 600 },
+        { nom: "Voyages Été", mensuel: 600 }
+      ]
+    },
+    {
+      cat: "Loisir",
+      items: [
+        { nom: "Sports Été", mensuel: 400 },
+        { nom: "Bateau", mensuel: 400 },
+        { nom: "Sports Hiver", mensuel: 400 }
+      ]
+    },
+    {
+      cat: "Autres",
+      items: [
+        { nom: "Fond de prévoyance", mensuel: 500 }
+      ]
+    }
   ],
   slowgo: [
-    { cat: 'Habitation', items: [{ nom: 'Assurances Habitation', mensuel: 153.08 }, { nom: 'Taxes Municipales/scolaires', mensuel: 212.79 }, { nom: 'Propane', mensuel: 75 }, { nom: 'Mobilier&Déco&Reno', mensuel: 200 }, { nom: 'Hydro-Quebec', mensuel: 143.83 }] },
-    { cat: 'Vie courante', items: [{ nom: 'Épicerie', mensuel: 1500 }, { nom: 'Restaurants', mensuel: 300 }, { nom: 'Bell (Cellulaire/Internet/TV)', mensuel: 261.03 }, { nom: 'Spotify', mensuel: 13.99 }, { nom: 'Streaming', mensuel: 13.99 }, { nom: 'Coiffure', mensuel: 100 }, { nom: 'Amazon (Articles maison/Cadeaux)', mensuel: 200 }, { nom: 'Pharmacie', mensuel: 50 }, { nom: 'Entretien Voiture', mensuel: 200 }, { nom: 'Assurances Auto', mensuel: 366.25 }, { nom: 'Gaz Auto', mensuel: 850 }] },
-    { cat: 'Santé & Voyages', items: [{ nom: 'Assurances Privée', mensuel: 91.31 }, { nom: 'Dentiste', mensuel: 100 }, { nom: 'Optométriste', mensuel: 100 }, { nom: 'Voyage Hiver', mensuel: 600 }, { nom: 'Voyages Été', mensuel: 600 }] },
-    { cat: 'Loisir', items: [{ nom: 'Sports Été', mensuel: 400 }, { nom: 'Bateau', mensuel: 400 }, { nom: 'Sports Hiver', mensuel: 400 }] },
-    { cat: 'Autres', items: [{ nom: 'Fond de prévoyance', mensuel: 500 }] }
+    {
+      cat: "Habitation",
+      items: [
+        { nom: "Assurances Habitation", mensuel: 153.08 },
+        { nom: "Taxes Municipales/scolaires", mensuel: 212.79 },
+        { nom: "Propane", mensuel: 75 },
+        { nom: "Mobilier&Déco&Reno", mensuel: 200 },
+        { nom: "Hydro-Quebec", mensuel: 143.83 }
+      ]
+    },
+    {
+      cat: "Vie courante",
+      items: [
+        { nom: "Épicerie", mensuel: 1500 },
+        { nom: "Restaurants", mensuel: 300 },
+        { nom: "Bell (Cellulaire/Internet/TV)", mensuel: 261.03 },
+        { nom: "Spotify", mensuel: 13.99 },
+        { nom: "Streaming", mensuel: 13.99 },
+        { nom: "Coiffure", mensuel: 100 },
+        { nom: "Amazon (Articles maison/Cadeaux)", mensuel: 200 },
+        { nom: "Pharmacie", mensuel: 50 },
+        { nom: "Entretien Voiture", mensuel: 200 },
+        { nom: "Assurances Auto", mensuel: 200 },
+        { nom: "Gaz Auto", mensuel: 300 }
+      ]
+    },
+    {
+      cat: "Santé & Voyages",
+      items: [
+        { nom: "Assurances Privée", mensuel: 91.31 },
+        { nom: "Dentiste", mensuel: 100 },
+        { nom: "Optométriste", mensuel: 100 },
+        { nom: "Voyage Hiver", mensuel: 600 },
+        { nom: "Voyages Été", mensuel: 600 }
+      ]
+    },
+    {
+      cat: "Loisir",
+      items: [
+        { nom: "Sports Été", mensuel: 400 },
+        { nom: "Bateau", mensuel: 0 },
+        { nom: "Sports Hiver", mensuel: 400 }
+      ]
+    },
+    {
+      cat: "Autres",
+      items: [
+        { nom: "Fond de prévoyance", mensuel: 500 }
+      ]
+    }
   ],
   nogo: [
-    { cat: 'Habitation', items: [{ nom: 'Assurances Habitation', mensuel: 153.08 }, { nom: 'Taxes Municipales/scolaires', mensuel: 212.79 }, { nom: 'Propane', mensuel: 75 }, { nom: 'Mobilier&Déco&Reno', mensuel: 200 }, { nom: 'Hydro-Quebec', mensuel: 143.83 }] },
-    { cat: 'Vie courante', items: [{ nom: 'Épicerie', mensuel: 1500 }, { nom: 'Restaurants', mensuel: 300 }, { nom: 'Bell (Cellulaire/Internet/TV)', mensuel: 261.03 }, { nom: 'Spotify', mensuel: 13.99 }, { nom: 'Streaming', mensuel: 13.99 }, { nom: 'Coiffure', mensuel: 100 }, { nom: 'Amazon (Articles maison/Cadeaux)', mensuel: 200 }, { nom: 'Pharmacie', mensuel: 50 }, { nom: 'Entretien Voiture', mensuel: 200 }, { nom: 'Assurances Auto', mensuel: 366.25 }, { nom: 'Gaz Auto', mensuel: 850 }] },
-    { cat: 'Santé & Voyages', items: [{ nom: 'Assurances Privée', mensuel: 91.31 }, { nom: 'Dentiste', mensuel: 100 }, { nom: 'Optométriste', mensuel: 100 }, { nom: 'Voyage Hiver', mensuel: 600 }, { nom: 'Voyages Été', mensuel: 600 }] },
-    { cat: 'Loisir', items: [{ nom: 'Sports Été', mensuel: 400 }, { nom: 'Bateau', mensuel: 400 }, { nom: 'Sports Hiver', mensuel: 400 }] },
-    { cat: 'Autres', items: [{ nom: 'Fond de prévoyance', mensuel: 500 }] }
+    {
+      cat: "Habitation",
+      items: [
+        { nom: "Assurances Habitation", mensuel: 153.08 },
+        { nom: "Taxes Municipales/scolaires", mensuel: 212.79 },
+        { nom: "Propane", mensuel: 75 },
+        { nom: "Mobilier&Déco&Reno", mensuel: 200 },
+        { nom: "Hydro-Quebec", mensuel: 143.83 }
+      ]
+    },
+    {
+      cat: "Vie courante",
+      items: [
+        { nom: "Épicerie", mensuel: 1500 },
+        { nom: "Restaurants", mensuel: 300 },
+        { nom: "Bell (Cellulaire/Internet/TV)", mensuel: 261.03 },
+        { nom: "Spotify", mensuel: 13.99 },
+        { nom: "Streaming", mensuel: 13.99 },
+        { nom: "Coiffure", mensuel: 100 },
+        { nom: "Amazon (Articles maison/Cadeaux)", mensuel: 200 },
+        { nom: "Pharmacie", mensuel: 50 },
+        { nom: "Entretien Voiture", mensuel: 200 },
+        { nom: "Assurances Auto", mensuel: 100 },
+        { nom: "Gaz Auto", mensuel: 100 }
+      ]
+    },
+    {
+      cat: "Santé & Voyages",
+      items: [
+        { nom: "Assurances Privée", mensuel: 91.31 },
+        { nom: "Dentiste", mensuel: 100 },
+        { nom: "Optométriste", mensuel: 100 },
+        { nom: "Voyage Hiver", mensuel: 600 },
+        { nom: "Voyages Été", mensuel: 600 }
+      ]
+    },
+    {
+      cat: "Loisir",
+      items: [
+        { nom: "Sports Été", mensuel: 100 },
+        { nom: "Sports Hiver", mensuel: 100 }
+      ]
+    },
+    {
+      cat: "Autres",
+      items: [
+        { nom: "Fond de prévoyance", mensuel: 500 }
+      ]
+    }
   ]
 };
 
@@ -384,7 +527,6 @@ function projeterDecaissement() {
 
     const depenses = depenseBase * Math.pow(1 + inp.inflation, i);
 
-    // 1. Rentes et Revenus temporaires de travail
     const rentesFixes = (inp.rrqFemme + inp.psvFemme + inp.pensionPDFemme +
                          inp.rrqHomme + inp.psvHomme + inp.pensionPDHomme) * Math.pow(1 + inp.inflation, i);
 
@@ -392,7 +534,6 @@ function projeterDecaissement() {
     if (annee <= (inp.travailFinAnneeFemme || 0)) travailAnnuel += (inp.travailFemme || 0);
     if (annee <= (inp.travailFinAnneeHomme || 0)) travailAnnuel += (inp.travailHomme || 0);
 
-    // 2. Vente de la maison (injection directe dans le Non-Enregistré)
     let venteMaison = 0;
     if (annee === (inp.venteMaisonAnnee || 0) && (inp.venteMaisonMontant || 0) > 0) {
       venteMaison = inp.venteMaisonMontant;
@@ -402,7 +543,6 @@ function projeterDecaissement() {
 
     const capDebut = st.reerF + st.celiF + st.nonEnregF + st.reerH + st.celiH + st.nonEnregH;
 
-    // 3. FERR Obligatoire
     const ferrF = ageF >= 71 ? st.reerF * (FERR_RATES[Math.min(ageF, 85)] || 0.09) : 0;
     const ferrH = ageH >= 71 ? st.reerH * (FERR_RATES[Math.min(ageH, 85)] || 0.09) : 0;
     const ferrOblig = ferrF + ferrH;
@@ -410,12 +550,10 @@ function projeterDecaissement() {
     st.reerF -= ferrF;
     st.reerH -= ferrH;
 
-    // 4. Revenu imposable & Impôts estimé (travail + rentes + FERR)
     const revenuImposable = rentesFixes + travailAnnuel + ferrOblig;
     const impotsEstimes = revenuImposable * 0.15;
     const revenuNetDisponible = revenuImposable - impotsEstimes;
 
-    // 5. Retraits complémentaires si déficit
     const manqueAGagner = Math.max(0, depenses - revenuNetDisponible);
     let retraitExtra = 0;
 
@@ -643,12 +781,12 @@ function showDonneesTab(tab, el) {
         <div class="card">
           <div class="card-title">Revenus Autonomes — ${inp.prenomFemme}</div>
           <div class="form-group"><label class="form-label">Revenu Annuel Net ($)</label><input type="number" class="form-input" value="${inp.travailFemme||0}" oninput="setInp('travailFemme',parseFloat(this.value)||0)"></div>
-          <div class="form-group" style="margin-top:8px;"><label class="form-label">Jusqu'à quelle année inclusivement ?</label><input type="number" class="form-input" value="${inp.travailFinAnneeFemme||2028}" oninput="setInp('travailFinAnneeFemme',parseInt(this.value)||2028)"></div>
+          <div class="form-group" style="margin-top:8px;"><label class="form-label">Jusqu'à quelle année inclusivement ?</label><input type="number" class="form-input" value="${inp.travailFinAnneeFemme||2027}" oninput="setInp('travailFinAnneeFemme',parseInt(this.value)||2027)"></div>
         </div>
         <div class="card">
           <div class="card-title">Revenus Autonomes — ${inp.prenomHomme}</div>
           <div class="form-group"><label class="form-label">Revenu Annuel Net ($)</label><input type="number" class="form-input" value="${inp.travailHomme||0}" oninput="setInp('travailHomme',parseFloat(this.value)||0)"></div>
-          <div class="form-group" style="margin-top:8px;"><label class="form-label">Jusqu'à quelle année inclusivement ?</label><input type="number" class="form-input" value="${inp.travailFinAnneeHomme||2028}" oninput="setInp('travailFinAnneeHomme',parseInt(this.value)||2028)"></div>
+          <div class="form-group" style="margin-top:8px;"><label class="form-label">Jusqu'à quelle année inclusivement ?</label><input type="number" class="form-input" value="${inp.travailFinAnneeHomme||2027}" oninput="setInp('travailFinAnneeHomme',parseInt(this.value)||2027)"></div>
         </div>
       </div>
       <div class="card">
@@ -660,7 +798,7 @@ function showDonneesTab(tab, el) {
           </div>
           <div class="form-group">
             <label class="form-label">Année prévue de la vente</label>
-            <input type="number" class="form-input" value="${inp.venteMaisonAnnee||2029}" oninput="setInp('venteMaisonAnnee',parseInt(this.value)||2029)">
+            <input type="number" class="form-input" value="${inp.venteMaisonAnnee||2036}" oninput="setInp('venteMaisonAnnee',parseInt(this.value)||2036)">
           </div>
         </div>
       </div>`;
