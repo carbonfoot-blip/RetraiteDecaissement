@@ -217,6 +217,7 @@ body {
       <div class="sidebar-item active" onclick="showDonneesTab('profil',this)">👥 Profil du couple</div>
       <div class="sidebar-item" onclick="showDonneesTab('capital',this)">💼 Capital & Placements</div>
       <div class="sidebar-item" onclick="showDonneesTab('pensions',this)">🏛 Rentes & Pensions</div>
+      <div class="sidebar-item" onclick="showDonneesTab('extra_revenus',this)">💵 Travail & Vente Maison</div>
       <div class="sidebar-item" onclick="showDonneesTab('hypotheses',this)">⚙️ Hypothèses & Ages</div>
     </div>
     <div class="main-content" id="donnees-content"></div>
@@ -268,6 +269,7 @@ body {
             <th>Âge Conjoint</th>
             <th>Capital Début</th>
             <th>Rentes Fixes</th>
+            <th>Revenus Travail / Vente</th>
             <th>FERR Obligatoire</th>
             <th>Retrait Complémentaire</th>
             <th>Dépenses</th>
@@ -285,38 +287,58 @@ body {
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
+
+const DEFAULT_INPUTS = {
+  prenomFemme: 'Sylvie', anneeNaissanceFemme: 1959,
+  prenomHomme: 'Claude',  anneeNaissanceHomme: 1955,
+  
+  reerFemme: 238281, celiFemme: 0, nonEnregFemme: 0,
+  reerHomme: 149298, celiHomme: 0, nonEnregHomme: 0,
+  
+  rrqFemme: 13364, psvFemme: 9024, pensionPDFemme: 0,
+  rrqHomme: 16667, psvHomme: 9024, pensionPDHomme: 16777,
+  
+  // NOUVEAUX CHAMPS DE REVENUS TEMPORAIRES ET VENTE
+  travailFemme: 0, travailFinAnneeFemme: 2028,
+  travailHomme: 0, travailFinAnneeHomme: 2028,
+  
+  venteMaisonMontant: 0,
+  venteMaisonAnnee: 2029,
+  
+  ageFinGogo: 72,
+  ageFinSlowgo: 77,
+  inflation: 0.023,
+  rendement: 0.04
+};
+
 const DEFAULT_BUDGET = {
   gogo: [
-    { cat: 'Habitation', items: [{ nom: 'Taxes, assurances & entretien', mensuel: 600 }, { nom: 'Chauffage & Électricité', mensuel: 250 }] },
-    { cat: 'Vie courante', items: [{ nom: 'Épicerie & soins', mensuel: 900 }, { nom: 'Transport / Voiture', mensuel: 450 }, { nom: 'Télécoms & loisirs', mensuel: 300 }] },
-    { cat: 'Santé & Voyages', items: [{ nom: 'Assurances & Santé', mensuel: 350 }, { nom: 'Voyages / Activités', mensuel: 800 }] }
+    { cat: 'Habitation', items: [{ nom: 'Assurances Habitation', mensuel: 153.08 }, { nom: 'Taxes Municipales/scolaires', mensuel: 212.79 }, { nom: 'Propane', mensuel: 75 }, { nom: 'Mobilier&Déco&Reno', mensuel: 200 }, { nom: 'Hydro-Quebec', mensuel: 143.83 }] },
+    { cat: 'Vie courante', items: [{ nom: 'Épicerie', mensuel: 1500 }, { nom: 'Restaurants', mensuel: 300 }, { nom: 'Bell (Cellulaire/Internet/TV)', mensuel: 261.03 }, { nom: 'Spotify', mensuel: 13.99 }, { nom: 'Streaming', mensuel: 13.99 }, { nom: 'Coiffure', mensuel: 100 }, { nom: 'Amazon (Articles maison/Cadeaux)', mensuel: 200 }, { nom: 'Pharmacie', mensuel: 50 }, { nom: 'Entretien Voiture', mensuel: 200 }, { nom: 'Assurances Auto', mensuel: 366.25 }, { nom: 'Gaz Auto', mensuel: 850 }] },
+    { cat: 'Santé & Voyages', items: [{ nom: 'Assurances Privée', mensuel: 91.31 }, { nom: 'Dentiste', mensuel: 100 }, { nom: 'Optométriste', mensuel: 100 }, { nom: 'Voyage Hiver', mensuel: 600 }, { nom: 'Voyages Été', mensuel: 600 }] },
+    { cat: 'Loisir', items: [{ nom: 'Sports Été', mensuel: 400 }, { nom: 'Bateau', mensuel: 400 }, { nom: 'Sports Hiver', mensuel: 400 }] },
+    { cat: 'Autres', items: [{ nom: 'Fond de prévoyance', mensuel: 500 }] }
   ],
   slowgo: [
-    { cat: 'Habitation', items: [{ nom: 'Taxes, assurances & entretien', mensuel: 600 }, { nom: 'Chauffage & Électricité', mensuel: 250 }] },
-    { cat: 'Vie courante', items: [{ nom: 'Épicerie & soins', mensuel: 900 }, { nom: 'Transport / Voiture', mensuel: 350 }, { nom: 'Télécoms & loisirs', mensuel: 250 }] },
-    { cat: 'Santé & Voyages', items: [{ nom: 'Assurances & Santé', mensuel: 500 }, { nom: 'Voyages / Activités', mensuel: 400 }] }
+    { cat: 'Habitation', items: [{ nom: 'Assurances Habitation', mensuel: 153.08 }, { nom: 'Taxes Municipales/scolaires', mensuel: 212.79 }, { nom: 'Propane', mensuel: 75 }, { nom: 'Mobilier&Déco&Reno', mensuel: 200 }, { nom: 'Hydro-Quebec', mensuel: 143.83 }] },
+    { cat: 'Vie courante', items: [{ nom: 'Épicerie', mensuel: 1500 }, { nom: 'Restaurants', mensuel: 300 }, { nom: 'Bell (Cellulaire/Internet/TV)', mensuel: 261.03 }, { nom: 'Spotify', mensuel: 13.99 }, { nom: 'Streaming', mensuel: 13.99 }, { nom: 'Coiffure', mensuel: 100 }, { nom: 'Amazon (Articles maison/Cadeaux)', mensuel: 200 }, { nom: 'Pharmacie', mensuel: 50 }, { nom: 'Entretien Voiture', mensuel: 200 }, { nom: 'Assurances Auto', mensuel: 366.25 }, { nom: 'Gaz Auto', mensuel: 850 }] },
+    { cat: 'Santé & Voyages', items: [{ nom: 'Assurances Privée', mensuel: 91.31 }, { nom: 'Dentiste', mensuel: 100 }, { nom: 'Optométriste', mensuel: 100 }, { nom: 'Voyage Hiver', mensuel: 600 }, { nom: 'Voyages Été', mensuel: 600 }] },
+    { cat: 'Loisir', items: [{ nom: 'Sports Été', mensuel: 400 }, { nom: 'Bateau', mensuel: 400 }, { nom: 'Sports Hiver', mensuel: 400 }] },
+    { cat: 'Autres', items: [{ nom: 'Fond de prévoyance', mensuel: 500 }] }
   ],
   nogo: [
-    { cat: 'Habitation / Soins', items: [{ nom: 'Logement / Résidence', mensuel: 3000 }, { nom: 'Soins & Aide', mensuel: 800 }] },
-    { cat: 'Vie courante', items: [{ nom: 'Dépenses personnelles', mensuel: 500 }] }
+    { cat: 'Habitation', items: [{ nom: 'Assurances Habitation', mensuel: 153.08 }, { nom: 'Taxes Municipales/scolaires', mensuel: 212.79 }, { nom: 'Propane', mensuel: 75 }, { nom: 'Mobilier&Déco&Reno', mensuel: 200 }, { nom: 'Hydro-Quebec', mensuel: 143.83 }] },
+    { cat: 'Vie courante', items: [{ nom: 'Épicerie', mensuel: 1500 }, { nom: 'Restaurants', mensuel: 300 }, { nom: 'Bell (Cellulaire/Internet/TV)', mensuel: 261.03 }, { nom: 'Spotify', mensuel: 13.99 }, { nom: 'Streaming', mensuel: 13.99 }, { nom: 'Coiffure', mensuel: 100 }, { nom: 'Amazon (Articles maison/Cadeaux)', mensuel: 200 }, { nom: 'Pharmacie', mensuel: 50 }, { nom: 'Entretien Voiture', mensuel: 200 }, { nom: 'Assurances Auto', mensuel: 366.25 }, { nom: 'Gaz Auto', mensuel: 850 }] },
+    { cat: 'Santé & Voyages', items: [{ nom: 'Assurances Privée', mensuel: 91.31 }, { nom: 'Dentiste', mensuel: 100 }, { nom: 'Optométriste', mensuel: 100 }, { nom: 'Voyage Hiver', mensuel: 600 }, { nom: 'Voyages Été', mensuel: 600 }] },
+    { cat: 'Loisir', items: [{ nom: 'Sports Été', mensuel: 400 }, { nom: 'Bateau', mensuel: 400 }, { nom: 'Sports Hiver', mensuel: 400 }] },
+    { cat: 'Autres', items: [{ nom: 'Fond de prévoyance', mensuel: 500 }] }
   ]
 };
 
 let APP = {
   phase: 'gogo',
   budget: JSON.parse(JSON.stringify(DEFAULT_BUDGET)),
-  inputs: {
-    prenomFemme: 'Marie', anneeNaissanceFemme: 1959,
-    prenomHomme: 'Paul', anneeNaissanceHomme: 1955,
-    reerFemme: 150000, celiFemme: 80000, nonEnregFemme: 50000,
-    reerHomme: 220000, celiHomme: 95000, nonEnregHomme: 75000,
-    rrqFemme: 10500, psvFemme: 8700, pensionPDFemme: 0,
-    rrqHomme: 12800, psvHomme: 8700, pensionPDHomme: 14000,
-    ageFinGogo: 72,
-    ageFinSlowgo: 77,
-    inflation: 0.023,
-    rendement: 0.04
-  },
+  inputs: JSON.parse(JSON.stringify(DEFAULT_INPUTS)),
   resultats: null,
   chartCapital: null,
   chartSources: null
@@ -362,12 +384,25 @@ function projeterDecaissement() {
 
     const depenses = depenseBase * Math.pow(1 + inp.inflation, i);
 
+    // 1. Rentes et Revenus temporaires de travail
     const rentesFixes = (inp.rrqFemme + inp.psvFemme + inp.pensionPDFemme +
                          inp.rrqHomme + inp.psvHomme + inp.pensionPDHomme) * Math.pow(1 + inp.inflation, i);
 
+    let travailAnnuel = 0;
+    if (annee <= (inp.travailFinAnneeFemme || 0)) travailAnnuel += (inp.travailFemme || 0);
+    if (annee <= (inp.travailFinAnneeHomme || 0)) travailAnnuel += (inp.travailHomme || 0);
+
+    // 2. Vente de la maison (injection directe dans le Non-Enregistré)
+    let venteMaison = 0;
+    if (annee === (inp.venteMaisonAnnee || 0) && (inp.venteMaisonMontant || 0) > 0) {
+      venteMaison = inp.venteMaisonMontant;
+      st.nonEnregF += venteMaison / 2;
+      st.nonEnregH += venteMaison / 2;
+    }
+
     const capDebut = st.reerF + st.celiF + st.nonEnregF + st.reerH + st.celiH + st.nonEnregH;
 
-    // 1. Retraits FERR obligatoires
+    // 3. FERR Obligatoire
     const ferrF = ageF >= 71 ? st.reerF * (FERR_RATES[Math.min(ageF, 85)] || 0.09) : 0;
     const ferrH = ageH >= 71 ? st.reerH * (FERR_RATES[Math.min(ageH, 85)] || 0.09) : 0;
     const ferrOblig = ferrF + ferrH;
@@ -375,21 +410,18 @@ function projeterDecaissement() {
     st.reerF -= ferrF;
     st.reerH -= ferrH;
 
-    // 2. Calcul de l'impôt estimé (rentes + FERR)
-    const revenuImposable = rentesFixes + ferrOblig;
+    // 4. Revenu imposable & Impôts estimé (travail + rentes + FERR)
+    const revenuImposable = rentesFixes + travailAnnuel + ferrOblig;
     const impotsEstimes = revenuImposable * 0.15;
-
-    // 3. Entrées nettes disponibles
     const revenuNetDisponible = revenuImposable - impotsEstimes;
 
-    // 4. Besoin de retrait complémentaire
+    // 5. Retraits complémentaires si déficit
     const manqueAGagner = Math.max(0, depenses - revenuNetDisponible);
     let retraitExtra = 0;
 
     if (manqueAGagner > 0) {
       let resteAPromener = manqueAGagner;
 
-      // A) Piger dans le CELI (non imposable)
       const celiTot = st.celiF + st.celiH;
       if (celiTot > 0) {
         const pigerCELI = Math.min(resteAPromener, celiTot);
@@ -399,7 +431,6 @@ function projeterDecaissement() {
         resteAPromener -= pigerCELI;
       }
 
-      // B) Piger dans le Non-Enregistré
       if (resteAPromener > 0) {
         const neTot = st.nonEnregF + st.nonEnregH;
         if (neTot > 0) {
@@ -411,7 +442,6 @@ function projeterDecaissement() {
         }
       }
 
-      // C) Piger dans le FERR additionnel (avec gross-up d'impôt ~20%)
       if (resteAPromener > 0) {
         const reerTot = st.reerF + st.reerH;
         if (reerTot > 0) {
@@ -423,7 +453,6 @@ function projeterDecaissement() {
       }
     }
 
-    // 5. Rendement annuel appliqué uniquement sur le solde NET restant
     st.reerF = Math.max(0, st.reerF) * (1 + inp.rendement);
     st.reerH = Math.max(0, st.reerH) * (1 + inp.rendement);
     st.celiF = Math.max(0, st.celiF) * (1 + inp.rendement);
@@ -435,6 +464,7 @@ function projeterDecaissement() {
 
     lignes.push({
       annee, ageF, ageH, capDebut, rentesFixes,
+      revenusExtra: travailAnnuel + venteMaison,
       ferrObligatoire: ferrOblig,
       retraitExtra, depenses,
       impotsEstimes,
@@ -606,6 +636,34 @@ function showDonneesTab(tab, el) {
           <div class="form-group" style="margin-top:8px;"><label class="form-label">Pension Employeur / Autre ($/an)</label><input type="number" class="form-input" value="${inp.pensionPDHomme}" oninput="setInp('pensionPDHomme',parseFloat(this.value)||0)"></div>
         </div>
       </div>`;
+  } else if (tab === 'extra_revenus') {
+    c.innerHTML = `
+      <div class="page-title" style="margin-bottom:20px;">Travail Autonome & Vente d'Actifs</div>
+      <div class="grid grid-2" style="margin-bottom:20px;">
+        <div class="card">
+          <div class="card-title">Revenus Autonomes — ${inp.prenomFemme}</div>
+          <div class="form-group"><label class="form-label">Revenu Annuel Net ($)</label><input type="number" class="form-input" value="${inp.travailFemme||0}" oninput="setInp('travailFemme',parseFloat(this.value)||0)"></div>
+          <div class="form-group" style="margin-top:8px;"><label class="form-label">Jusqu'à quelle année inclusivement ?</label><input type="number" class="form-input" value="${inp.travailFinAnneeFemme||2028}" oninput="setInp('travailFinAnneeFemme',parseInt(this.value)||2028)"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Revenus Autonomes — ${inp.prenomHomme}</div>
+          <div class="form-group"><label class="form-label">Revenu Annuel Net ($)</label><input type="number" class="form-input" value="${inp.travailHomme||0}" oninput="setInp('travailHomme',parseFloat(this.value)||0)"></div>
+          <div class="form-group" style="margin-top:8px;"><label class="form-label">Jusqu'à quelle année inclusivement ?</label><input type="number" class="form-input" value="${inp.travailFinAnneeHomme||2028}" oninput="setInp('travailFinAnneeHomme',parseInt(this.value)||2028)"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">🏡 Vente de la Maison / Entrée Ponctuelle de Capital</div>
+        <div class="grid grid-2">
+          <div class="form-group">
+            <label class="form-label">Montant Net en Poche après Vente ($)</label>
+            <input type="number" class="form-input" value="${inp.venteMaisonMontant||0}" oninput="setInp('venteMaisonMontant',parseFloat(this.value)||0)">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Année prévue de la vente</label>
+            <input type="number" class="form-input" value="${inp.venteMaisonAnnee||2029}" oninput="setInp('venteMaisonAnnee',parseInt(this.value)||2029)">
+          </div>
+        </div>
+      </div>`;
   } else if (tab === 'hypotheses') {
     c.innerHTML = `
       <div class="page-title" style="margin-bottom:20px;">Paramètres des Phases & Rendement</div>
@@ -688,7 +746,7 @@ function renderResultats() {
     data: {
       labels: l.map(r => r.annee),
       datasets: [
-        { label: 'Rentes Fixes', data: l.map(r => Math.round(r.rentesFixes)), backgroundColor: '#3ecfb2', stack: 'a' },
+        { label: 'Rentes Fixes & Travail', data: l.map(r => Math.round(r.rentesFixes + r.revenusExtra)), backgroundColor: '#3ecfb2', stack: 'a' },
         { label: 'FERR Obligatoire', data: l.map(r => Math.round(r.ferrObligatoire)), backgroundColor: '#5b8dee', stack: 'a' },
         { label: 'Retrait Extra', data: l.map(r => Math.round(r.retraitExtra)), backgroundColor: '#e8654a', stack: 'a' }
       ]
@@ -707,6 +765,7 @@ function renderDetails() {
       <td>${l.ageH}</td>
       <td>${fmt(l.capDebut)}</td>
       <td style="color:var(--teal);">${fmt(l.rentesFixes)}</td>
+      <td style="color:var(--green);">${fmt(l.revenusExtra)}</td>
       <td style="color:var(--blue);">${fmt(l.ferrObligatoire)}</td>
       <td style="color:var(--coral); font-weight:600;">${fmt(l.retraitExtra)}</td>
       <td>${fmt(l.depenses)}</td>
