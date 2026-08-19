@@ -374,9 +374,9 @@ body {
 const SECRET_PASSWORD = "retraite2026";
 
 function verifierPassword() {
-  const input = document.getElementById('pass-input').value;
+  const input = document.getElementById('pass-input').value.trim();
   if (input === SECRET_PASSWORD) {
-    sessionStorage.setItem('retraite_auth', 'true');
+    sessionStorage.setItem('retraite_auth_v2', 'true');
     document.getElementById('login-screen').style.display = 'none';
   } else {
     document.getElementById('login-error').style.display = 'block';
@@ -384,7 +384,7 @@ function verifierPassword() {
 }
 
 function checkAuth() {
-  if (sessionStorage.getItem('retraite_auth') === 'true') {
+  if (sessionStorage.getItem('retraite_auth_v2') === 'true') {
     document.getElementById('login-screen').style.display = 'none';
   }
 }
@@ -394,7 +394,6 @@ function toggleToolsModal() {
   m.style.display = m.style.display === 'flex' ? 'none' : 'flex';
 }
 
-/* NOUVELLES DONNÉES PAR DÉFAUT FOURNIES */
 const DEFAULT_INPUTS = {
   prenomFemme: "Sylvie", anneeNaissanceFemme: 1959,
   prenomHomme: "Claude", anneeNaissanceHomme: 1955,
@@ -769,7 +768,6 @@ function renderResultats() {
   });
 }
 
-/* RENDU DE LA PAGE DÉTAIL : RETRAIT DU "a" DANS ÂGE (EX: 67 / 71) */
 function renderDetails() {
   projeterDecaissement();
   const tbody = document.getElementById('details-tbody');
