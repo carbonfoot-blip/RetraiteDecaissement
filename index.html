@@ -83,7 +83,7 @@ body {
 }
 .nav-top-actions { display: flex; gap: 8px; align-items: center; }
 
-/* NAV BAS (IPHONE STYLE) */
+/* NAV BAS */
 .nav-bottom {
   position: fixed; bottom: 0; left: 0; right: 0; z-index: 1000;
   background: var(--bg2); border-top: 1px solid var(--border);
@@ -340,7 +340,7 @@ body {
   </div>
 </div>
 
-<!-- DETAILS (TABLEAU DÉTAILLÉ COMPLET) -->
+<!-- DETAILS -->
 <div id="section-details" class="section">
   <div class="page-title">Tableau Annuel Détaillé</div>
   <div class="page-subtitle">Projection complète année par année</div>
@@ -595,15 +595,14 @@ function renderBudget() {
       const row = document.createElement('div');
       row.className = 'budget-row';
       row.innerHTML = `
-        <input type="text" class="form-input" style="padding:4px 6px; font-size:13px;" value="${item.nom}" oninput="APP.budget['${APP.phase}'][${cIdx}].items[${iIdx}].nom=this.value; save();">
+        <input type="text" class="form-input" style="padding:4px 6px; font-size:13px;" value="${item.nom}" oninput="updateNom('${APP.phase}', ${cIdx}, ${iIdx}, this.value)">
         <input type="number" class="budget-input" value="${m}" oninput="updateMensuel('${APP.phase}', ${cIdx}, ${iIdx}, this.value)">
-        <span class="budget-annuel-col">${fmt(m * 12)}</span>
+        <span class="budget-annuel-col" id="annuel-${cIdx}-${iIdx}">${fmt(m * 12)}</span>
         <button class="del-btn" onclick="supprimerLigne(${cIdx}, ${iIdx})">×</button>
       `;
       cDiv.appendChild(row);
     });
 
-    // BOUTON D'AJOUT DE POSTE POUR CETTE CATÉGORIE SPÉCIFIQUE
     const addPosteBtn = document.createElement('button');
     addPosteBtn.className = 'add-item-btn';
     addPosteBtn.textContent = `+ Ajouter un poste à "${cat.cat}"`;
@@ -613,18 +612,34 @@ function renderBudget() {
     container.appendChild(cDiv);
   });
 
-  document.getElementById('summary-mensuel-val').textContent = fmt(totalM);
-  document.getElementById('summary-annuel-val').textContent = fmt(totalM * 12);
+  recalculerTotauxBudget();
 }
 
-function updateMensuel(phase, cIdx, iIdx, val) {
-  APP.budget[phase][cIdx].items[iIdx].mensuel = parseFloat(val) || 0;
-  let totalM = 0;
-  APP.budget[phase].forEach(c => c.items.forEach(i => totalM += (parseFloat(i.mensuel) || 0)));
-  document.getElementById('summary-mensuel-val').textContent = fmt(totalM);
-  document.getElementById('summary-annuel-val').textContent = fmt(totalM * 12);
-  renderBudget();
+function updateNom(phase, cIdx, iIdx, val) {
+  APP.budget[phase][cIdx].items[iIdx].nom = val;
   save();
+}
+
+// MISE À JOUR CIBLÉE DU MONTANT SANS REDESSINER TOUTE LA PAGE (ÉVITE LA PERTE DU CURSEUR)
+function updateMensuel(phase, cIdx, iIdx, val) {
+  const v = parseFloat(val) || 0;
+  APP.budget[phase][cIdx].items[iIdx].mensuel = v;
+  
+  const elAnnuel = document.getElementById(`annuel-${cIdx}-${iIdx}`);
+  if (elAnnuel) elAnnuel.textContent = fmt(v * 12);
+
+  recalculerTotauxBudget();
+  save();
+}
+
+function recalculerTotauxBudget() {
+  let totalM = 0;
+  (APP.budget[APP.phase] || []).forEach(c => c.items.forEach(i => totalM += (parseFloat(i.mensuel) || 0)));
+  
+  const elM = document.getElementById('summary-mensuel-val');
+  const elA = document.getElementById('summary-annuel-val');
+  if (elM) elM.textContent = fmt(totalM);
+  if (elA) elA.textContent = fmt(totalM * 12);
 }
 
 function ajouterLigne(cIdx) {
