@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Retraite Décaissement — Planificateur</title>
+<title>Retraite Décaissement — Connexion</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -50,28 +50,37 @@ body {
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
-  font-size: 16px; /* Agrandit la taille globale pour la lisibilité */
+  font-size: 16px;
   line-height: 1.5;
+}
+
+/* ÉCRAN DE LOGIN */
+#login-screen {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--bg); z-index: 1000;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.login-box {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 36px; max-width: 400px; width: 100%;
+  text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
 /* NAV */
 .nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  background: var(--bg2);
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center;
-  padding: 0 24px; height: 64px; gap: 8px;
+  background: var(--bg2); border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 24px; height: 64px; gap: 8px;
 }
 .nav-brand {
-  font-family: 'DM Serif Display', serif;
-  font-size: 20px; color: var(--gold);
+  font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--gold);
   margin-right: 16px; white-space: nowrap;
 }
 .nav-brand span { color: var(--text2); font-size: 13px; font-family: 'DM Sans', sans-serif; }
 .nav-tab {
-  padding: 8px 18px; border-radius: 20px;
-  border: none; background: transparent; color: var(--text2);
-  font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+  padding: 8px 18px; border-radius: 20px; border: none; background: transparent;
+  color: var(--text2); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
   cursor: pointer; transition: all 0.2s; white-space: nowrap;
 }
 .nav-tab:hover { color: var(--text); background: var(--bg3); }
@@ -117,7 +126,6 @@ body {
 .sidebar-section { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text3); font-weight: 700; padding: 16px 12px 6px; }
 .main-content { padding: 28px 32px; overflow-y: auto; }
 
-/* SOMMAIRE CARDS */
 .hero-card { background: var(--bg2); border: 2px solid var(--gold); border-radius: var(--radius); padding: 28px; text-align: center; margin-bottom: 24px; }
 .hero-title { font-size: 16px; color: var(--text2); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
 .hero-value { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--gold); margin: 8px 0; }
@@ -157,6 +165,19 @@ body {
 </head>
 <body>
 
+<!-- ÉCRAN DE CONNEXION -->
+<div id="login-screen">
+  <div class="login-box">
+    <div style="font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--gold); margin-bottom: 8px;">Retraite Décaissement</div>
+    <div style="font-size: 14px; color: var(--text2); margin-bottom: 24px;">Veuillez entrer le mot de passe pour accéder à l'application.</div>
+    <div class="form-group" style="margin-bottom: 16px;">
+      <input type="password" id="pass-input" class="form-input" placeholder="Mot de passe" style="text-align: center;" onkeyup="if(event.key==='Enter') verifierPassword()">
+    </div>
+    <button class="btn-sm btn-primary" style="width: 100%; padding: 12px;" onclick="verifierPassword()">Se connecter</button>
+    <div id="login-error" style="color: var(--coral); font-size: 13px; margin-top: 12px; display: none;">Mot de passe incorrect.</div>
+  </div>
+</div>
+
 <nav class="nav">
   <div class="nav-brand" id="nav-brand">Retraite Décaissement<span></span></div>
   <button class="nav-tab active" onclick="showSection('sommaire')">🏠 En un coup d'œil</button>
@@ -175,7 +196,7 @@ body {
 
 <div class="main">
 
-<!-- SECTION 0: SOMMAIRE SIMPLE (AJUSTEMENT ÂGÉS) -->
+<!-- SECTION 0: SOMMAIRE -->
 <div id="section-sommaire" class="section active">
   <div class="section-content" style="max-width:1000px; margin:0 auto;">
     <div style="margin-bottom:24px;">
@@ -186,7 +207,7 @@ body {
     <div class="hero-card">
       <div class="hero-title">SÉCURITÉ FINANCIÈRE JUSQU'À</div>
       <div class="hero-value" id="sommaire-age-couverture">95+ ans</div>
-      <div class="hero-sub" id="sommaire-message-sante">✅ Vos écononomies et rentes couvrent 100 % de vos dépenses prévues.</div>
+      <div class="hero-sub" id="sommaire-message-sante">✅ Vos économies et rentes couvrent 100 % de vos dépenses prévues.</div>
     </div>
 
     <div class="grid grid-3" style="margin-bottom:24px;">
@@ -210,7 +231,7 @@ body {
     <div class="card">
       <div class="card-title">💡 Prochaines étapes de votre retraite</div>
       <ul style="padding-left:20px; color:var(--text2); line-height:1.8;">
-        <li><strong style="color:var(--text);">Phase active (Go-Go) :</strong> Prévue jusqu'à <span id="sommaire-age-gogo">72</span> ans (Sylvie) avec un budget voyages et loisirs plus élevé.</li>
+        <li><strong style="color:var(--text);">Phase active (Go-Go) :</strong> Prévue jusqu'à <span id="sommaire-age-gogo">72</span> ans avec un budget voyages et loisirs plus élevé.</li>
         <li><strong style="color:var(--text);">Travail autonome :</strong> Vos revenus temporaires contribuent à réduire les retraits sur vos placements au début.</li>
         <li><strong style="color:var(--text);">Vente de la maison :</strong> Prévue en <span id="sommaire-annee-maison">2036</span> avec une rentrée nette estimée de <span id="sommaire-montant-maison">200 000 $</span> pour consolider vos avoirs.</li>
       </ul>
@@ -350,7 +371,28 @@ body {
 <script>
 
 // ============================================================
-// CONFIGURATION DES DONNÉES PAR DÉFAUT (SYLVIE & CLAUDE)
+// CONFIGURATION DU MOT DE PASSE (MODIFIABLE ICI)
+// ============================================================
+const SECRET_PASSWORD = "retraite2026"; // Change le mot de passe ici !
+
+function verifierPassword() {
+  const input = document.getElementById('pass-input').value;
+  if (input === SECRET_PASSWORD) {
+    sessionStorage.setItem('retraite_auth', 'true');
+    document.getElementById('login-screen').style.display = 'none';
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+  }
+}
+
+function checkAuth() {
+  if (sessionStorage.getItem('retraite_auth') === 'true') {
+    document.getElementById('login-screen').style.display = 'none';
+  }
+}
+
+// ============================================================
+// CONFIGURATION DES DONNÉES PAR DÉFAUT
 // ============================================================
 const DEFAULT_INPUTS = {
   prenomFemme: "Sylvie",
@@ -909,15 +951,8 @@ function importData(e) {
   reader.readAsText(file);
 }
 
-function reinitialiserApplication() {
-  if (confirm('Effacer toutes les données enregistrées et rétablir la configuration initiale ?')) {
-    localStorage.removeItem('retraite_decaissement_v1_budget');
-    localStorage.removeItem('retraite_decaissement_v1_inputs');
-    location.reload();
-  }
-}
-
 document.addEventListener('DOMContentLoaded', () => {
+  checkAuth();
   load();
   updateNavBrand();
   renderBudget();
