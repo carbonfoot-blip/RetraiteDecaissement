@@ -4,137 +4,154 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Retraite Décaissement — Planificateur</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #0f0f13;
   --bg2: #17171f;
   --bg3: #1e1e28;
   --bg4: #252532;
-  --border: rgba(255,255,255,0.07);
-  --border2: rgba(255,255,255,0.12);
-  --text: #e8e8f0;
-  --text2: #9090a8;
-  --text3: #5a5a72;
-  --gold: #c9a84c;
+  --border: rgba(255,255,255,0.1);
+  --border2: rgba(255,255,255,0.18);
+  --text: #f0f0f8;
+  --text2: #a0a0b8;
+  --text3: #70708a;
+  --gold: #d4af37;
   --gold2: #f0c84e;
   --teal: #3ecfb2;
-  --teal2: #5aebd4;
   --coral: #e8654a;
   --blue: #5b8dee;
   --green: #4ecb71;
-  --purple: #9b6dff;
-  --pink: #e060a0;
-  --amber: #f0a030;
   --radius: 12px;
   --radius-sm: 8px;
 }
+
+body.light-theme {
+  --bg: #f4f5f8;
+  --bg2: #ffffff;
+  --bg3: #e8eaf0;
+  --bg4: #d8dce8;
+  --border: rgba(0,0,0,0.1);
+  --border2: rgba(0,0,0,0.2);
+  --text: #1a1a24;
+  --text2: #4a4a60;
+  --text3: #707088;
+  --gold: #b8860b;
+  --gold2: #d4af37;
+  --teal: #008b8b;
+  --coral: #d9534f;
+  --blue: #1e88e5;
+  --green: #2e7d32;
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
   font-family: 'DM Sans', sans-serif;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
-  font-size: 14px;
+  font-size: 16px; /* Agrandit la taille globale pour la lisibilité */
+  line-height: 1.5;
 }
+
 /* NAV */
 .nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  background: rgba(15,15,19,0.92);
-  backdrop-filter: blur(12px);
+  background: var(--bg2);
   border-bottom: 1px solid var(--border);
   display: flex; align-items: center;
-  padding: 0 24px; height: 56px; gap: 4px;
+  padding: 0 24px; height: 64px; gap: 8px;
 }
 .nav-brand {
   font-family: 'DM Serif Display', serif;
-  font-size: 18px; color: var(--gold);
-  margin-right: 20px; white-space: nowrap;
+  font-size: 20px; color: var(--gold);
+  margin-right: 16px; white-space: nowrap;
 }
-.nav-brand span { color: var(--text2); font-size: 12px; font-family: 'DM Sans', sans-serif; }
+.nav-brand span { color: var(--text2); font-size: 13px; font-family: 'DM Sans', sans-serif; }
 .nav-tab {
-  padding: 6px 16px; border-radius: 20px;
+  padding: 8px 18px; border-radius: 20px;
   border: none; background: transparent; color: var(--text2);
-  font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+  font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
   cursor: pointer; transition: all 0.2s; white-space: nowrap;
 }
 .nav-tab:hover { color: var(--text); background: var(--bg3); }
-.nav-tab.active { color: var(--gold); background: rgba(201,168,76,0.12); }
+.nav-tab.active { color: var(--gold); background: rgba(212,175,55,0.15); }
 .nav-actions { margin-left: auto; display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
 
 .btn-sm {
-  padding: 6px 12px; border-radius: var(--radius-sm);
-  font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500;
+  padding: 8px 14px; border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600;
   cursor: pointer; transition: all 0.15s; border: 1px solid var(--border2);
-  background: var(--bg3); color: var(--text2);
+  background: var(--bg3); color: var(--text);
 }
-.btn-sm:hover { color: var(--text); border-color: var(--border2); background: var(--bg4); }
+.btn-sm:hover { background: var(--bg4); }
 .btn-primary { background: var(--gold); color: #0f0f13; border-color: var(--gold); }
-.btn-primary:hover { background: var(--gold2); }
 
-.main { padding-top: 56px; }
+.main { padding-top: 64px; }
 .section { display: none; }
 .section.active { display: block; }
 
-.page-header { padding: 32px 32px 0; display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
-.page-title { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--text); }
-.page-subtitle { color: var(--text2); font-size: 13px; margin-top: 4px; }
+.page-title { font-family: 'DM Serif Display', serif; font-size: 30px; color: var(--text); }
+.page-subtitle { color: var(--text2); font-size: 15px; margin-top: 4px; }
 
-.card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
-.card-title { font-family: 'DM Serif Display', serif; font-size: 16px; color: var(--gold); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
-.card-title .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+.card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; }
+.card-title { font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--gold); margin-bottom: 16px; }
 
-.grid { display: grid; gap: 16px; }
+.grid { display: grid; gap: 20px; }
 .grid-2 { grid-template-columns: 1fr 1fr; }
 .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
-.grid-4 { grid-template-columns: repeat(4, 1fr); }
 
 .form-group { display: flex; flex-direction: column; gap: 6px; }
-.form-label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text3); }
-.form-input, .form-select {
-  background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-sm);
-  color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; padding: 9px 12px; width: 100%;
+.form-label { font-size: 12px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text3); }
+.form-input {
+  background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius-sm);
+  color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; padding: 10px 14px; width: 100%;
 }
 
-.section-content { padding: 24px 32px; }
-.section-split { display: grid; grid-template-columns: 280px 1fr; gap: 0; min-height: calc(100vh - 56px); }
-.sidebar { background: var(--bg2); border-right: 1px solid var(--border); padding: 20px 16px; position: sticky; top: 56px; height: calc(100vh - 56px); overflow-y: auto; }
-.sidebar-item { padding: 10px 12px; border-radius: var(--radius-sm); cursor: pointer; color: var(--text2); font-size: 13px; transition: all 0.15s; margin-bottom: 2px; display: flex; align-items: center; gap: 10px; }
+.section-content { padding: 32px; }
+.section-split { display: grid; grid-template-columns: 280px 1fr; gap: 0; min-height: calc(100vh - 64px); }
+.sidebar { background: var(--bg2); border-right: 1px solid var(--border); padding: 24px 16px; position: sticky; top: 64px; height: calc(100vh - 64px); overflow-y: auto; }
+.sidebar-item { padding: 12px 14px; border-radius: var(--radius-sm); cursor: pointer; color: var(--text2); font-size: 14px; font-weight: 500; transition: all 0.15s; margin-bottom: 4px; }
 .sidebar-item:hover { background: var(--bg3); color: var(--text); }
-.sidebar-item.active { background: rgba(201,168,76,0.1); color: var(--gold); }
-.sidebar-section { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text3); font-weight: 600; padding: 16px 12px 6px; }
-.main-content { padding: 24px 28px; overflow-y: auto; }
+.sidebar-item.active { background: rgba(212,175,55,0.15); color: var(--gold); font-weight: 700; }
+.sidebar-section { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text3); font-weight: 700; padding: 16px 12px 6px; }
+.main-content { padding: 28px 32px; overflow-y: auto; }
 
-.stat-card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
-.stat-label { font-size: 11px; color: var(--text3); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 6px; }
-.stat-value { font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--text); }
+/* SOMMAIRE CARDS */
+.hero-card { background: var(--bg2); border: 2px solid var(--gold); border-radius: var(--radius); padding: 28px; text-align: center; margin-bottom: 24px; }
+.hero-title { font-size: 16px; color: var(--text2); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+.hero-value { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--gold); margin: 8px 0; }
+.hero-sub { font-size: 15px; color: var(--green); font-weight: 600; }
 
-.data-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
-.data-table th { padding: 8px 10px; text-align: right; font-weight: 600; font-size: 10px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text3); border-bottom: 1px solid var(--border); white-space: nowrap; }
+.stat-card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+.stat-label { font-size: 12px; color: var(--text3); letter-spacing: 0.05em; text-transform: uppercase; font-weight: 700; margin-bottom: 6px; }
+.stat-value { font-family: 'DM Serif Display', serif; font-size: 26px; color: var(--text); }
+
+.data-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.data-table th { padding: 10px 12px; text-align: right; font-weight: 700; font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text3); border-bottom: 1px solid var(--border); }
 .data-table th:first-child { text-align: left; }
-.data-table td { padding: 7px 10px; text-align: right; border-bottom: 1px solid rgba(255,255,255,0.03); color: var(--text2); white-space: nowrap; }
-.data-table td:first-child { text-align: left; color: var(--text); }
+.data-table td { padding: 10px 12px; text-align: right; border-bottom: 1px solid var(--border); color: var(--text2); }
+.data-table td:first-child { text-align: left; color: var(--text); font-weight: 600; }
 
-.budget-header-cols { display: grid; grid-template-columns: 1fr 120px 120px 32px; gap: 8px; padding: 4px 8px 8px; }
-.budget-header-cols span { font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text3); font-weight: 600; text-align: right; }
+.budget-header-cols { display: grid; grid-template-columns: 1fr 140px 140px 36px; gap: 8px; padding: 4px 8px 8px; }
+.budget-header-cols span { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text3); font-weight: 700; text-align: right; }
 .budget-header-cols span:first-child { text-align: left; }
-.budget-row { display: grid; grid-template-columns: 1fr 120px 120px 32px; gap: 8px; align-items: center; padding: 5px 8px; border-bottom: 1px solid rgba(255,255,255,0.03); }
-.budget-input { background: var(--bg3); border: 1px solid transparent; border-radius: 6px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 13px; padding: 5px 8px; width: 100%; text-align: right; }
-.budget-computed { font-size: 13px; color: var(--text2); text-align: right; padding: 5px 8px; }
-.budget-total-row { display: grid; grid-template-columns: 1fr 120px 120px 32px; gap: 8px; align-items: center; padding: 8px 8px; background: var(--bg3); border-radius: var(--radius-sm); margin-top: 12px; }
-.del-btn { width: 24px; height: 24px; border-radius: 4px; border: none; background: transparent; color: var(--text3); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; }
-.add-row-btn { background: none; border: 1px dashed var(--border2); border-radius: var(--radius-sm); color: var(--text3); font-family: 'DM Sans', sans-serif; font-size: 12px; padding: 7px 12px; cursor: pointer; width: 100%; text-align: left; margin-top: 6px; }
+.budget-row { display: grid; grid-template-columns: 1fr 140px 140px 36px; gap: 8px; align-items: center; padding: 6px 8px; border-bottom: 1px solid var(--border); }
+.budget-input { background: var(--bg3); border: 1px solid var(--border2); border-radius: 6px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; padding: 6px 10px; width: 100%; text-align: right; }
+.budget-computed { font-size: 14px; color: var(--text2); text-align: right; padding: 6px 10px; font-weight: 500; }
+.budget-total-row { display: grid; grid-template-columns: 1fr 140px 140px 36px; gap: 8px; align-items: center; padding: 12px 8px; background: var(--bg3); border-radius: var(--radius-sm); margin-top: 12px; }
+.del-btn { width: 28px; height: 28px; border-radius: 6px; border: none; background: transparent; color: var(--coral); cursor: pointer; font-size: 18px; font-weight: bold; }
+.add-row-btn { background: none; border: 1px dashed var(--border2); border-radius: var(--radius-sm); color: var(--text2); font-size: 13px; font-weight: 600; padding: 8px 12px; cursor: pointer; width: 100%; text-align: left; margin-top: 8px; }
 .add-row-btn:hover { border-color: var(--gold); color: var(--gold); }
 
 .phase-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
-.phase-tab { padding: 7px 16px; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--text2); font-size: 12px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; }
-.phase-tab.active { border-color: var(--teal); color: var(--teal); background: rgba(62,207,178,0.1); }
+.phase-tab { padding: 8px 20px; border-radius: 20px; border: 1px solid var(--border2); background: transparent; color: var(--text2); font-size: 13px; font-weight: 600; cursor: pointer; }
+.phase-tab.active { border-color: var(--teal); color: var(--teal); background: rgba(62,207,178,0.15); }
 
-.alert { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border-radius: var(--radius-sm); font-size: 13px; line-height: 1.5; }
-.alert-ok { background: rgba(78,203,113,0.1); border: 1px solid rgba(78,203,113,0.2); color: #4ecb71; }
-.alert-warn { background: rgba(232,101,74,0.1); border: 1px solid rgba(232,101,74,0.2); color: #e8654a; }
+.alert { padding: 16px 20px; border-radius: var(--radius-sm); font-size: 15px; font-weight: 500; line-height: 1.5; }
+.alert-ok { background: rgba(78,203,113,0.15); border: 1px solid rgba(78,203,113,0.3); color: var(--green); }
+.alert-warn { background: rgba(232,101,74,0.15); border: 1px solid rgba(232,101,74,0.3); color: var(--coral); }
 
-.results-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 24px 32px; }
 .chart-container { position: relative; width: 100%; height: 320px; }
 </style>
 </head>
@@ -142,14 +159,15 @@ body {
 
 <nav class="nav">
   <div class="nav-brand" id="nav-brand">Retraite Décaissement<span></span></div>
-  <button class="nav-tab active" onclick="showSection('budget')">💰 Budget</button>
-  <button class="nav-tab" onclick="showSection('donnees')">📋 Données</button>
-  <button class="nav-tab" onclick="showSection('resultats')">📊 Résultats</button>
-  <button class="nav-tab" onclick="showSection('details')">📈 Détails</button>
+  <button class="nav-tab active" onclick="showSection('sommaire')">🏠 En un coup d'œil</button>
+  <button class="nav-tab" onclick="showSection('budget')">💰 Budget</button>
+  <button class="nav-tab" onclick="showSection('donnees')">📋 Mes Données</button>
+  <button class="nav-tab" onclick="showSection('resultats')">📊 Graphiques</button>
+  <button class="nav-tab" onclick="showSection('details')">📈 Tableau Annuel</button>
   <div class="nav-actions">
-    <button class="btn-sm" onclick="confirmerReset()" style="color:var(--coral);">✕ Reset</button>
-    <button class="btn-sm" onclick="exportData()">⬇ Export</button>
-    <button class="btn-sm" onclick="document.getElementById('importFile').click()">⬆ Import</button>
+    <button class="btn-sm" onclick="toggleTheme()">☀️ / 🌙</button>
+    <button class="btn-sm" onclick="exportData()">⬇ Sauvegarder</button>
+    <button class="btn-sm" onclick="document.getElementById('importFile').click()">⬆ Ouvrir</button>
     <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
     <button class="btn-sm btn-primary" onclick="recalculerTout()">⟳ Recalculer</button>
   </div>
@@ -157,8 +175,51 @@ body {
 
 <div class="main">
 
+<!-- SECTION 0: SOMMAIRE SIMPLE (AJUSTEMENT ÂGÉS) -->
+<div id="section-sommaire" class="section active">
+  <div class="section-content" style="max-width:1000px; margin:0 auto;">
+    <div style="margin-bottom:24px;">
+      <div class="page-title">Sommaire de votre retraite</div>
+      <div class="page-subtitle">Un résumé clair de votre autonomie financière et de votre budget</div>
+    </div>
+
+    <div class="hero-card">
+      <div class="hero-title">SÉCURITÉ FINANCIÈRE JUSQU'À</div>
+      <div class="hero-value" id="sommaire-age-couverture">95+ ans</div>
+      <div class="hero-sub" id="sommaire-message-sante">✅ Vos écononomies et rentes couvrent 100 % de vos dépenses prévues.</div>
+    </div>
+
+    <div class="grid grid-3" style="margin-bottom:24px;">
+      <div class="card" style="text-align:center;">
+        <div class="stat-label">Épargne Totale Actuelle</div>
+        <div class="stat-value" id="sommaire-epargne" style="color:var(--gold); font-size:32px;">—</div>
+        <div style="font-size:13px; color:var(--text2); margin-top:4px;">REER, FERR & CELI combinés</div>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div class="stat-label">Revenus Fixes Garantis</div>
+        <div class="stat-value" id="sommaire-rentes" style="color:var(--teal); font-size:32px;">—</div>
+        <div style="font-size:13px; color:var(--text2); margin-top:4px;">RRQ, PSV et Pensions par année</div>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div class="stat-label">Budget Annuel Go-Go</div>
+        <div class="stat-value" id="sommaire-budget" style="font-size:32px;">—</div>
+        <div style="font-size:13px; color:var(--text2); margin-top:4px;" id="sommaire-budget-mensuel">soit — / mois</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">💡 Prochaines étapes de votre retraite</div>
+      <ul style="padding-left:20px; color:var(--text2); line-height:1.8;">
+        <li><strong style="color:var(--text);">Phase active (Go-Go) :</strong> Prévue jusqu'à <span id="sommaire-age-gogo">72</span> ans (Sylvie) avec un budget voyages et loisirs plus élevé.</li>
+        <li><strong style="color:var(--text);">Travail autonome :</strong> Vos revenus temporaires contribuent à réduire les retraits sur vos placements au début.</li>
+        <li><strong style="color:var(--text);">Vente de la maison :</strong> Prévue en <span id="sommaire-annee-maison">2036</span> avec une rentrée nette estimée de <span id="sommaire-montant-maison">200 000 $</span> pour consolider vos avoirs.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
 <!-- SECTION 1: BUDGET -->
-<div id="section-budget" class="section active">
+<div id="section-budget" class="section">
   <div class="section-split">
     <div class="sidebar">
       <div class="sidebar-section">Phases de vie</div>
@@ -169,11 +230,11 @@ body {
       <div style="padding: 4px 12px;">
         <div class="stat-card" style="margin-bottom:10px;">
           <div class="stat-label">Budget annuel</div>
-          <div class="stat-value" id="sidebar-total" style="font-size:20px;">—</div>
+          <div class="stat-value" id="sidebar-total" style="font-size:22px;">—</div>
         </div>
         <div class="stat-card">
           <div class="stat-label">Budget mensuel</div>
-          <div class="stat-value" id="sidebar-mensuel" style="font-size:20px;">—</div>
+          <div class="stat-value" id="sidebar-mensuel" style="font-size:22px;">—</div>
         </div>
       </div>
     </div>
@@ -191,19 +252,19 @@ body {
       </div>
       <div class="card">
         <div class="budget-header-cols">
-          <span>Poste</span><span>Mensuel</span><span>Annuel</span><span></span>
+          <span>Poste de dépense</span><span>Mensuel</span><span>Annuel</span><span></span>
         </div>
         <div id="budget-categories"></div>
         <div class="budget-total-row">
-          <span style="font-weight:600;">Total des dépenses</span>
-          <span style="text-align:right; font-weight:600;" id="total-mensuel-display">0 $</span>
-          <span style="text-align:right; color:var(--gold); font-weight:600; font-size:16px;" id="total-annuel-display">0 $</span>
+          <span style="font-weight:700;">Total des dépenses</span>
+          <span style="text-align:right; font-weight:700;" id="total-mensuel-display">0 $</span>
+          <span style="text-align:right; color:var(--gold); font-weight:700; font-size:18px;" id="total-annuel-display">0 $</span>
           <span></span>
         </div>
       </div>
-      <div style="margin-top:16px; display:flex; gap:12px; flex-wrap:wrap;">
-        <button class="btn-sm" onclick="ajouterCategorie()">+ Ajouter catégorie</button>
-        <button class="btn-sm" onclick="reinitialiserBudget()">↺ Réinitialiser défaut</button>
+      <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
+        <button class="btn-sm" onclick="ajouterCategorie()">+ Ajouter une catégorie</button>
+        <button class="btn-sm" onclick="reinitialiserBudget()">↺ Remettre budget par défaut</button>
       </div>
     </div>
   </div>
@@ -238,18 +299,18 @@ body {
         <div class="stat-label">Revenus fixes garantis (Année 1)</div>
         <div class="stat-value" id="res-revenus-fixes">—</div>
       </div>
-      <div class="stat-card stat-green">
+      <div class="stat-card">
         <div class="stat-label">Capital résiduel à 95 ans</div>
-        <div class="stat-value" id="res-capital-95">—</div>
+        <div class="stat-value" id="res-capital-95" style="color:var(--green);">—</div>
       </div>
     </div>
-    <div class="results-grid">
+    <div class="grid grid-2">
       <div class="card">
-        <div class="card-title"><div class="dot"></div>Projection du Capital Total ($)</div>
+        <div class="card-title">Évolution de votre Capital ($)</div>
         <div class="chart-container"><canvas id="chart-capital"></canvas></div>
       </div>
       <div class="card">
-        <div class="card-title"><div class="dot" style="background:var(--teal)"></div>Composition des Revenus et Retraits</div>
+        <div class="card-title">Origine de vos Revenus Annuels</div>
         <div class="chart-container"><canvas id="chart-sources"></canvas></div>
       </div>
     </div>
@@ -289,192 +350,45 @@ body {
 <script>
 
 // ============================================================
-// CONFIGURATION DES DONNÉES PAR DÉFAUT (JSON INTÉGRÉ)
+// CONFIGURATION DES DONNÉES PAR DÉFAUT (SYLVIE & CLAUDE)
 // ============================================================
 const DEFAULT_INPUTS = {
   prenomFemme: "Sylvie",
   anneeNaissanceFemme: 1959,
   prenomHomme: "Claude",
   anneeNaissanceHomme: 1955,
-  reerFemme: 238281,
-  celiFemme: 0,
-  nonEnregFemme: 0,
-  reerHomme: 149298,
-  celiHomme: 0,
-  nonEnregHomme: 0,
-  rrqFemme: 13364,
-  psvFemme: 9024,
-  pensionPDFemme: 0,
-  rrqHomme: 16667,
-  psvHomme: 9024,
-  pensionPDHomme: 16777,
-  ageFinGogo: 72,
-  ageFinSlowgo: 77,
-  inflation: 0.023,
-  rendement: 0.04,
-  travailFemme: 30000,
-  travailHomme: 10000,
-  travailFinAnneeFemme: 2027,
-  travailFinAnneeHomme: 2027,
-  venteMaisonAnnee: 2036,
-  venteMaisonMontant: 200000
+  reerFemme: 238281, celiFemme: 0, nonEnregFemme: 0,
+  reerHomme: 149298, celiHomme: 0, nonEnregHomme: 0,
+  rrqFemme: 13364, psvFemme: 9024, pensionPDFemme: 0,
+  rrqHomme: 16667, psvHomme: 9024, pensionPDHomme: 16777,
+  ageFinGogo: 72, ageFinSlowgo: 77,
+  inflation: 0.023, rendement: 0.04,
+  travailFemme: 30000, travailHomme: 10000,
+  travailFinAnneeFemme: 2027, travailFinAnneeHomme: 2027,
+  venteMaisonAnnee: 2036, venteMaisonMontant: 200000
 };
 
 const DEFAULT_BUDGET = {
   gogo: [
-    {
-      cat: "Habitation",
-      items: [
-        { nom: "Assurances Habitation", mensuel: 153.08 },
-        { nom: "Taxes Municipales/scolaires", mensuel: 212.79 },
-        { nom: "Propane", mensuel: 75 },
-        { nom: "Mobilier&Déco&Reno", mensuel: 200 },
-        { nom: "Hydro-Quebec", mensuel: 143.83 }
-      ]
-    },
-    {
-      cat: "Vie courante",
-      items: [
-        { nom: "Épicerie", mensuel: 1500 },
-        { nom: "Restaurants", mensuel: 300 },
-        { nom: "Bell (Cellulaire/Internet/TV)", mensuel: 261.03 },
-        { nom: "Spotify", mensuel: 13.99 },
-        { nom: "Streaming", mensuel: 13.99 },
-        { nom: "Coiffure", mensuel: 100 },
-        { nom: "Amazon (Articles maison/Cadeaux)", mensuel: 200 },
-        { nom: "Pharmacie", mensuel: 50 },
-        { nom: "Entretien Voiture", mensuel: 200 },
-        { nom: "Assurances Auto", mensuel: 366.25 },
-        { nom: "Gaz Auto", mensuel: 850 }
-      ]
-    },
-    {
-      cat: "Santé & Voyages",
-      items: [
-        { nom: "Assurances Privée", mensuel: 91.31 },
-        { nom: "Dentiste", mensuel: 100 },
-        { nom: "Optométriste", mensuel: 100 },
-        { nom: "Voyage Hiver", mensuel: 600 },
-        { nom: "Voyages Été", mensuel: 600 }
-      ]
-    },
-    {
-      cat: "Loisir",
-      items: [
-        { nom: "Sports Été", mensuel: 400 },
-        { nom: "Bateau", mensuel: 400 },
-        { nom: "Sports Hiver", mensuel: 400 }
-      ]
-    },
-    {
-      cat: "Autres",
-      items: [
-        { nom: "Fond de prévoyance", mensuel: 500 }
-      ]
-    }
+    { cat: "Habitation", items: [{ nom: "Assurances Habitation", mensuel: 153.08 }, { nom: "Taxes Municipales/scolaires", mensuel: 212.79 }, { nom: "Propane", mensuel: 75 }, { nom: "Mobilier&Déco&Reno", mensuel: 200 }, { nom: "Hydro-Quebec", mensuel: 143.83 }] },
+    { cat: "Vie courante", items: [{ nom: "Épicerie", mensuel: 1500 }, { nom: "Restaurants", mensuel: 300 }, { nom: "Bell (Cellulaire/Internet/TV)", mensuel: 261.03 }, { nom: "Spotify", mensuel: 13.99 }, { nom: "Streaming", mensuel: 13.99 }, { nom: "Coiffure", mensuel: 100 }, { nom: "Amazon (Articles maison/Cadeaux)", mensuel: 200 }, { nom: "Pharmacie", mensuel: 50 }, { nom: "Entretien Voiture", mensuel: 200 }, { nom: "Assurances Auto", mensuel: 366.25 }, { nom: "Gaz Auto", mensuel: 850 }] },
+    { cat: "Santé & Voyages", items: [{ nom: "Assurances Privée", mensuel: 91.31 }, { nom: "Dentiste", mensuel: 100 }, { nom: "Optométriste", mensuel: 100 }, { nom: "Voyage Hiver", mensuel: 600 }, { nom: "Voyages Été", mensuel: 600 }] },
+    { cat: "Loisir", items: [{ nom: "Sports Été", mensuel: 400 }, { nom: "Bateau", mensuel: 400 }, { nom: "Sports Hiver", mensuel: 400 }] },
+    { cat: "Autres", items: [{ nom: "Fond de prévoyance", mensuel: 500 }] }
   ],
   slowgo: [
-    {
-      cat: "Habitation",
-      items: [
-        { nom: "Assurances Habitation", mensuel: 153.08 },
-        { nom: "Taxes Municipales/scolaires", mensuel: 212.79 },
-        { nom: "Propane", mensuel: 75 },
-        { nom: "Mobilier&Déco&Reno", mensuel: 200 },
-        { nom: "Hydro-Quebec", mensuel: 143.83 }
-      ]
-    },
-    {
-      cat: "Vie courante",
-      items: [
-        { nom: "Épicerie", mensuel: 1500 },
-        { nom: "Restaurants", mensuel: 300 },
-        { nom: "Bell (Cellulaire/Internet/TV)", mensuel: 261.03 },
-        { nom: "Spotify", mensuel: 13.99 },
-        { nom: "Streaming", mensuel: 13.99 },
-        { nom: "Coiffure", mensuel: 100 },
-        { nom: "Amazon (Articles maison/Cadeaux)", mensuel: 200 },
-        { nom: "Pharmacie", mensuel: 50 },
-        { nom: "Entretien Voiture", mensuel: 200 },
-        { nom: "Assurances Auto", mensuel: 200 },
-        { nom: "Gaz Auto", mensuel: 300 }
-      ]
-    },
-    {
-      cat: "Santé & Voyages",
-      items: [
-        { nom: "Assurances Privée", mensuel: 91.31 },
-        { nom: "Dentiste", mensuel: 100 },
-        { nom: "Optométriste", mensuel: 100 },
-        { nom: "Voyage Hiver", mensuel: 600 },
-        { nom: "Voyages Été", mensuel: 600 }
-      ]
-    },
-    {
-      cat: "Loisir",
-      items: [
-        { nom: "Sports Été", mensuel: 400 },
-        { nom: "Bateau", mensuel: 0 },
-        { nom: "Sports Hiver", mensuel: 400 }
-      ]
-    },
-    {
-      cat: "Autres",
-      items: [
-        { nom: "Fond de prévoyance", mensuel: 500 }
-      ]
-    }
+    { cat: "Habitation", items: [{ nom: "Assurances Habitation", mensuel: 153.08 }, { nom: "Taxes Municipales/scolaires", mensuel: 212.79 }, { nom: "Propane", mensuel: 75 }, { nom: "Mobilier&Déco&Reno", mensuel: 200 }, { nom: "Hydro-Quebec", mensuel: 143.83 }] },
+    { cat: "Vie courante", items: [{ nom: "Épicerie", mensuel: 1500 }, { nom: "Restaurants", mensuel: 300 }, { nom: "Bell (Cellulaire/Internet/TV)", mensuel: 261.03 }, { nom: "Spotify", mensuel: 13.99 }, { nom: "Streaming", mensuel: 13.99 }, { nom: "Coiffure", mensuel: 100 }, { nom: "Amazon (Articles maison/Cadeaux)", mensuel: 200 }, { nom: "Pharmacie", mensuel: 50 }, { nom: "Entretien Voiture", mensuel: 200 }, { nom: "Assurances Auto", mensuel: 200 }, { nom: "Gaz Auto", mensuel: 300 }] },
+    { cat: "Santé & Voyages", items: [{ nom: "Assurances Privée", mensuel: 91.31 }, { nom: "Dentiste", mensuel: 100 }, { nom: "Optométriste", mensuel: 100 }, { nom: "Voyage Hiver", mensuel: 600 }, { nom: "Voyages Été", mensuel: 600 }] },
+    { cat: "Loisir", items: [{ nom: "Sports Été", mensuel: 400 }, { nom: "Bateau", mensuel: 0 }, { nom: "Sports Hiver", mensuel: 400 }] },
+    { cat: "Autres", items: [{ nom: "Fond de prévoyance", mensuel: 500 }] }
   ],
   nogo: [
-    {
-      cat: "Habitation",
-      items: [
-        { nom: "Assurances Habitation", mensuel: 153.08 },
-        { nom: "Taxes Municipales/scolaires", mensuel: 212.79 },
-        { nom: "Propane", mensuel: 75 },
-        { nom: "Mobilier&Déco&Reno", mensuel: 200 },
-        { nom: "Hydro-Quebec", mensuel: 143.83 }
-      ]
-    },
-    {
-      cat: "Vie courante",
-      items: [
-        { nom: "Épicerie", mensuel: 1500 },
-        { nom: "Restaurants", mensuel: 300 },
-        { nom: "Bell (Cellulaire/Internet/TV)", mensuel: 261.03 },
-        { nom: "Spotify", mensuel: 13.99 },
-        { nom: "Streaming", mensuel: 13.99 },
-        { nom: "Coiffure", mensuel: 100 },
-        { nom: "Amazon (Articles maison/Cadeaux)", mensuel: 200 },
-        { nom: "Pharmacie", mensuel: 50 },
-        { nom: "Entretien Voiture", mensuel: 200 },
-        { nom: "Assurances Auto", mensuel: 100 },
-        { nom: "Gaz Auto", mensuel: 100 }
-      ]
-    },
-    {
-      cat: "Santé & Voyages",
-      items: [
-        { nom: "Assurances Privée", mensuel: 91.31 },
-        { nom: "Dentiste", mensuel: 100 },
-        { nom: "Optométriste", mensuel: 100 },
-        { nom: "Voyage Hiver", mensuel: 600 },
-        { nom: "Voyages Été", mensuel: 600 }
-      ]
-    },
-    {
-      cat: "Loisir",
-      items: [
-        { nom: "Sports Été", mensuel: 100 },
-        { nom: "Sports Hiver", mensuel: 100 }
-      ]
-    },
-    {
-      cat: "Autres",
-      items: [
-        { nom: "Fond de prévoyance", mensuel: 500 }
-      ]
-    }
+    { cat: "Habitation", items: [{ nom: "Assurances Habitation", mensuel: 153.08 }, { nom: "Taxes Municipales/scolaires", mensuel: 212.79 }, { nom: "Propane", mensuel: 75 }, { nom: "Mobilier&Déco&Reno", mensuel: 200 }, { nom: "Hydro-Quebec", mensuel: 143.83 }] },
+    { cat: "Vie courante", items: [{ nom: "Épicerie", mensuel: 1500 }, { nom: "Restaurants", mensuel: 300 }, { nom: "Bell (Cellulaire/Internet/TV)", mensuel: 261.03 }, { nom: "Spotify", mensuel: 13.99 }, { nom: "Streaming", mensuel: 13.99 }, { nom: "Coiffure", mensuel: 100 }, { nom: "Amazon (Articles maison/Cadeaux)", mensuel: 200 }, { nom: "Pharmacie", mensuel: 50 }, { nom: "Entretien Voiture", mensuel: 200 }, { nom: "Assurances Auto", mensuel: 100 }, { nom: "Gaz Auto", mensuel: 100 }] },
+    { cat: "Santé & Voyages", items: [{ nom: "Assurances Privée", mensuel: 91.31 }, { nom: "Dentiste", mensuel: 100 }, { nom: "Optométriste", mensuel: 100 }, { nom: "Voyage Hiver", mensuel: 600 }, { nom: "Voyages Été", mensuel: 600 }] },
+    { cat: "Loisir", items: [{ nom: "Sports Été", mensuel: 100 }, { nom: "Sports Hiver", mensuel: 100 }] },
+    { cat: "Autres", items: [{ nom: "Fond de prévoyance", mensuel: 500 }] }
   ]
 };
 
@@ -491,6 +405,10 @@ const FERR_RATES = {
   71:0.0528, 72:0.0540, 73:0.0553, 74:0.0567, 75:0.0582, 76:0.0598, 77:0.0617,
   78:0.0636, 79:0.0658, 80:0.0682, 81:0.0708, 82:0.0738, 83:0.0771, 84:0.0808, 85:0.0851
 };
+
+function toggleTheme() {
+  document.body.classList.toggle('light-theme');
+}
 
 function updateNavBrand() {
   const f = APP.inputs.prenomFemme || 'Conjointe';
@@ -611,6 +529,39 @@ function projeterDecaissement() {
   }
 
   APP.resultats = { lignes };
+  renderSommaireView();
+}
+
+function renderSommaireView() {
+  const l = APP.resultats?.lignes;
+  if (!l || !l.length) return;
+
+  const inp = APP.inputs;
+  const epargneTotale = inp.reerFemme + inp.celiFemme + inp.nonEnregFemme + inp.reerHomme + inp.celiHomme + inp.nonEnregHomme;
+  const rentesA1 = l[0].rentesFixes;
+
+  const calcBudgetAnnuel = (p) => (APP.budget[p] || []).reduce((s, c) => s + c.items.reduce((si, i) => si + (parseFloat(i.mensuel)||0) * 12, 0), 0);
+  const bGogo = calcBudgetAnnuel('gogo');
+
+  const l95 = l.find(row => row.ageF >= 95) || l[l.length - 1];
+
+  document.getElementById('sommaire-epargne').textContent = fmt(epargneTotale);
+  document.getElementById('sommaire-rentes').textContent = fmt(rentesA1);
+  document.getElementById('sommaire-budget').textContent = fmt(bGogo);
+  document.getElementById('sommaire-budget-mensuel').textContent = `soit ${fmt(bGogo / 12)} / mois`;
+
+  document.getElementById('sommaire-age-gogo').textContent = inp.ageFinGogo;
+  document.getElementById('sommaire-annee-maison').textContent = inp.venteMaisonAnnee;
+  document.getElementById('sommaire-montant-maison').textContent = fmt(inp.venteMaisonMontant);
+
+  if (l95.capFin > 0) {
+    document.getElementById('sommaire-age-couverture').textContent = '95+ ans';
+    document.getElementById('sommaire-message-sante').textContent = '✅ Solvabilité excellente : Vos économies et rentes couvrent l\'ensemble de vos besoins.';
+  } else {
+    const anneeEpuisement = l.find(r => r.capFin <= 0);
+    document.getElementById('sommaire-age-couverture').textContent = (anneeEpuisement ? anneeEpuisement.ageF : 90) + ' ans';
+    document.getElementById('sommaire-message-sante').textContent = '⚠️ Attention : Il existe un risque d\'épuisement du capital avant 95 ans.';
+  }
 }
 
 function showSection(id) {
@@ -642,7 +593,7 @@ function renderBudget() {
   cats.forEach((cat, cIdx) => {
     const cDiv = document.createElement('div');
     cDiv.style.marginBottom = '12px';
-    cDiv.innerHTML = `<div style="font-size:11px; text-transform:uppercase; color:var(--gold); font-weight:600; padding:8px 0;">${cat.cat}</div>`;
+    cDiv.innerHTML = `<div style="font-size:12px; text-transform:uppercase; color:var(--gold); font-weight:700; padding:8px 0;">${cat.cat}</div>`;
 
     cat.items.forEach((item, iIdx) => {
       totalM += (parseFloat(item.mensuel) || 0);
@@ -730,12 +681,12 @@ function showDonneesTab(tab, el) {
       <div class="page-title" style="margin-bottom:20px;">Profil du couple</div>
       <div class="grid grid-2">
         <div class="card">
-          <div class="card-title"><div class="dot" style="background:var(--pink)"></div>Conjointe (Plus jeune)</div>
+          <div class="card-title">Conjointe</div>
           <div class="form-group"><label class="form-label">Prénom</label><input class="form-input" value="${inp.prenomFemme}" oninput="setInp('prenomFemme',this.value)"></div>
           <div class="form-group" style="margin-top:10px;"><label class="form-label">Année de naissance</label><input type="number" class="form-input" value="${inp.anneeNaissanceFemme}" oninput="setInp('anneeNaissanceFemme',parseInt(this.value))"></div>
         </div>
         <div class="card">
-          <div class="card-title"><div class="dot" style="background:var(--blue)"></div>Conjoint</div>
+          <div class="card-title">Conjoint</div>
           <div class="form-group"><label class="form-label">Prénom</label><input class="form-input" value="${inp.prenomHomme}" oninput="setInp('prenomHomme',this.value)"></div>
           <div class="form-group" style="margin-top:10px;"><label class="form-label">Année de naissance</label><input type="number" class="form-input" value="${inp.anneeNaissanceHomme}" oninput="setInp('anneeNaissanceHomme',parseInt(this.value))"></div>
         </div>
@@ -790,7 +741,7 @@ function showDonneesTab(tab, el) {
         </div>
       </div>
       <div class="card">
-        <div class="card-title">🏡 Vente de la Maison / Entrée Ponctuelle de Capital</div>
+        <div class="card-title">🏡 Vente de la Maison / Entrée Ponctuelle</div>
         <div class="grid grid-2">
           <div class="form-group">
             <label class="form-label">Montant Net en Poche après Vente ($)</label>
@@ -811,12 +762,12 @@ function showDonneesTab(tab, el) {
           <div class="form-group">
             <label class="form-label">Âge fin Phase Go-Go</label>
             <input type="number" class="form-input" value="${inp.ageFinGogo}" oninput="setInp('ageFinGogo',parseInt(this.value)||72)">
-            <div style="font-size:11px; color:var(--text3); margin-top:2px;">Go-Go de ${2026-inp.anneeNaissanceFemme} à ${inp.ageFinGogo} ans</div>
+            <div style="font-size:12px; color:var(--text3); margin-top:2px;">Go-Go de ${2026-inp.anneeNaissanceFemme} à ${inp.ageFinGogo} ans</div>
           </div>
           <div class="form-group">
             <label class="form-label">Âge fin Phase Slow-Go</label>
             <input type="number" class="form-input" value="${inp.ageFinSlowgo}" oninput="setInp('ageFinSlowgo',parseInt(this.value)||77)">
-            <div style="font-size:11px; color:var(--text3); margin-top:2px;">Slow-Go de ${inp.ageFinGogo+1} à ${inp.ageFinSlowgo} ans, puis No-Go à ${inp.ageFinSlowgo+1}+ ans</div>
+            <div style="font-size:12px; color:var(--text3); margin-top:2px;">Slow-Go de ${inp.ageFinGogo+1} à ${inp.ageFinSlowgo} ans, puis No-Go à ${inp.ageFinSlowgo+1}+ ans</div>
           </div>
         </div>
         <hr style="border:none; border-top:1px solid var(--border); margin:20px 0;">
@@ -873,7 +824,7 @@ function renderResultats() {
     type: 'line',
     data: {
       labels: l.map(r => r.annee + ' (' + r.ageF + 'a)'),
-      datasets: [{ label: 'Capital Total', data: l.map(r => Math.round(r.capFin)), borderColor: '#c9a84c', backgroundColor: 'rgba(201,168,76,0.1)', fill: true }]
+      datasets: [{ label: 'Capital Total', data: l.map(r => Math.round(r.capFin)), borderColor: '#d4af37', backgroundColor: 'rgba(212,175,55,0.15)', fill: true }]
     },
     options: { responsive: true, maintainAspectRatio: false }
   });
@@ -905,10 +856,10 @@ function renderDetails() {
       <td style="color:var(--teal);">${fmt(l.rentesFixes)}</td>
       <td style="color:var(--green);">${fmt(l.revenusExtra)}</td>
       <td style="color:var(--blue);">${fmt(l.ferrObligatoire)}</td>
-      <td style="color:var(--coral); font-weight:600;">${fmt(l.retraitExtra)}</td>
+      <td style="color:var(--coral); font-weight:700;">${fmt(l.retraitExtra)}</td>
       <td>${fmt(l.depenses)}</td>
       <td>${fmt(l.impotsEstimes)}</td>
-      <td style="font-weight:600; color:var(--gold);">${fmt(l.capFin)}</td>
+      <td style="font-weight:700; color:var(--gold);">${fmt(l.capFin)}</td>
     </tr>
   `).join('');
 }
@@ -932,7 +883,7 @@ function load() {
 function recalculerTout() {
   save();
   projeterDecaissement();
-  const activeSec = document.querySelector('.section.active')?.id.replace('section-','') || 'budget';
+  const activeSec = document.querySelector('.section.active')?.id.replace('section-','') || 'sommaire';
   showSection(activeSec);
 }
 
@@ -958,8 +909,8 @@ function importData(e) {
   reader.readAsText(file);
 }
 
-function confirmerReset() {
-  if (confirm('Effacer toutes les données et rétablir les valeurs par défaut ?')) {
+function reinitialiserApplication() {
+  if (confirm('Effacer toutes les données enregistrées et rétablir la configuration initiale ?')) {
     localStorage.removeItem('retraite_decaissement_v1_budget');
     localStorage.removeItem('retraite_decaissement_v1_inputs');
     location.reload();
