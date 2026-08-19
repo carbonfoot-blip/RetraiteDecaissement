@@ -50,9 +50,9 @@ body {
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
-  font-size: 16px;
+  font-size: 15px;
   line-height: 1.5;
-  padding-bottom: 72px; /* Espace pour la barre du bas */
+  padding-bottom: 72px;
 }
 
 /* ÉCRAN DE LOGIN */
@@ -68,7 +68,7 @@ body {
   text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
-/* NAV HAUT (ÉPURÉE SUR MOBILE) */
+/* NAV HAUT */
 .nav-top {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   background: var(--bg2); border-bottom: 1px solid var(--border);
@@ -81,7 +81,7 @@ body {
 }
 .nav-top-actions { display: flex; gap: 8px; align-items: center; }
 
-/* NAV BAS (STYLE IPHONE) */
+/* NAV BAS (IPHONE STYLE) */
 .nav-bottom {
   position: fixed; bottom: 0; left: 0; right: 0; z-index: 1000;
   background: var(--bg2); border-top: 1px solid var(--border);
@@ -98,7 +98,7 @@ body {
 .nav-item .icon { font-size: 20px; margin-bottom: 2px; }
 .nav-item.active { color: var(--gold); }
 
-/* MENU CONTEXTUEL / MODAL DE RÉGLAGES */
+/* MODAL TOOLS */
 #modal-tools {
   display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(0,0,0,0.6); z-index: 1500; align-items: flex-end; justify-content: center;
@@ -108,8 +108,8 @@ body {
   padding: 24px; width: 100%; max-width: 500px; display: flex; flex-direction: column; gap: 12px;
 }
 
-/* STRUCTURE ET CONTENU */
-.main { padding-top: 68px; }
+/* STRUCTURE */
+.main { padding-top: 64px; }
 .section { display: none; padding: 16px; }
 .section.active { display: block; }
 
@@ -130,7 +130,7 @@ body {
 .form-label { font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text3); }
 .form-input {
   background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius-sm);
-  color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 16px; padding: 10px 12px; width: 100%;
+  color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; padding: 8px 12px; width: 100%;
 }
 
 .btn-sm {
@@ -141,28 +141,25 @@ body {
 }
 .btn-primary { background: var(--gold); color: #0f0f13; border-color: var(--gold); }
 
-/* CARTE SOMMAIRE MOBILE */
 .hero-card { background: var(--bg2); border: 2px solid var(--gold); border-radius: var(--radius); padding: 20px 16px; text-align: center; margin-bottom: 16px; }
-.hero-title { font-size: 13px; color: var(--text2); text-transform: uppercase; font-weight: 700; }
+.hero-title { font-size: 12px; color: var(--text2); text-transform: uppercase; font-weight: 700; }
 .hero-value { font-family: 'DM Serif Display', serif; font-size: 36px; color: var(--gold); margin: 4px 0; }
-.hero-sub { font-size: 14px; color: var(--green); font-weight: 600; }
+.hero-sub { font-size: 13px; color: var(--green); font-weight: 600; }
 
-.stat-card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; text-align: center; }
-.stat-label { font-size: 11px; color: var(--text3); text-transform: uppercase; font-weight: 700; margin-bottom: 4px; }
-.stat-value { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--text); }
+.stat-card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; text-align: center; }
+.stat-label { font-size: 10px; color: var(--text3); text-transform: uppercase; font-weight: 700; margin-bottom: 4px; }
+.stat-value { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--text); }
 
-/* SUB-TABS INTÉRIEURS (BUDGET & DONNÉES) */
 .sub-tabs { display: flex; background: var(--bg3); border-radius: var(--radius-sm); padding: 3px; margin-bottom: 16px; overflow-x: auto; }
-.sub-tab { flex: 1; padding: 8px 12px; border: none; background: transparent; color: var(--text2); font-size: 13px; font-weight: 600; border-radius: 6px; cursor: pointer; white-space: nowrap; text-align: center; }
+.sub-tab { flex: 1; padding: 8px 10px; border: none; background: transparent; color: var(--text2); font-size: 12px; font-weight: 600; border-radius: 6px; cursor: pointer; white-space: nowrap; text-align: center; }
 .sub-tab.active { background: var(--bg2); color: var(--gold); box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
 
-/* BUDGET STYLES */
-.budget-row { display: grid; grid-template-columns: 1fr 100px 32px; gap: 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); }
-.budget-input { background: var(--bg3); border: 1px solid var(--border2); border-radius: 6px; color: var(--text); font-size: 15px; padding: 8px; width: 100%; text-align: right; }
+.budget-row { display: grid; grid-template-columns: 1fr 100px 32px; gap: 8px; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--border); }
+.budget-input { background: var(--bg3); border: 1px solid var(--border2); border-radius: 6px; color: var(--text); font-size: 14px; padding: 6px; width: 100%; text-align: right; }
 .del-btn { width: 32px; height: 32px; border: none; background: transparent; color: var(--coral); font-size: 20px; font-weight: bold; }
 
-.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-.data-table th, .data-table td { padding: 8px; text-align: right; border-bottom: 1px solid var(--border); white-space: nowrap; }
+.data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.data-table th, .data-table td { padding: 8px 6px; text-align: right; border-bottom: 1px solid var(--border); white-space: nowrap; }
 .data-table th:first-child, .data-table td:first-child { text-align: left; }
 
 .chart-container { position: relative; width: 100%; height: 260px; }
@@ -170,11 +167,10 @@ body {
 </head>
 <body>
 
-<!-- ÉCRAN DE CONNEXION -->
 <div id="login-screen">
   <div class="login-box">
     <div style="font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--gold); margin-bottom: 8px;">Retraite Décaissement</div>
-    <div style="font-size: 14px; color: var(--text2); margin-bottom: 20px;">Entrez le mot de passe pour accéder :</div>
+    <div style="font-size: 14px; color: var(--text2); margin-bottom: 20px;">Entrez le mot de passe :</div>
     <div class="form-group" style="margin-bottom: 16px;">
       <input type="password" id="pass-input" class="form-input" placeholder="Mot de passe" style="text-align: center;" onkeyup="if(event.key==='Enter') verifierPassword()">
     </div>
@@ -183,7 +179,6 @@ body {
   </div>
 </div>
 
-<!-- NAV HAUT -->
 <nav class="nav-top">
   <div class="nav-brand" id="nav-brand">Retraite Décaissement</div>
   <div class="nav-top-actions">
@@ -192,37 +187,30 @@ body {
   </div>
 </nav>
 
-<!-- NAV BAS (IPHONE STYLE) -->
 <nav class="nav-bottom">
   <button class="nav-item active" onclick="showSection('sommaire', this)">
-    <span class="icon">🏠</span>
-    <span>Sommaire</span>
+    <span class="icon">🏠</span><span>Sommaire</span>
   </button>
   <button class="nav-item" onclick="showSection('budget', this)">
-    <span class="icon">💰</span>
-    <span>Budget</span>
+    <span class="icon">💰</span><span>Budget</span>
   </button>
   <button class="nav-item" onclick="showSection('donnees', this)">
-    <span class="icon">📋</span>
-    <span>Données</span>
+    <span class="icon">📋</span><span>Données</span>
   </button>
   <button class="nav-item" onclick="showSection('resultats', this)">
-    <span class="icon">📊</span>
-    <span>Graphiques</span>
+    <span class="icon">📊</span><span>Graphiques</span>
   </button>
   <button class="nav-item" onclick="showSection('details', this)">
-    <span class="icon">📈</span>
-    <span>Détails</span>
+    <span class="icon">📈</span><span>Détails</span>
   </button>
 </nav>
 
-<!-- MODAL DES OUTILS ET OPTIONS -->
 <div id="modal-tools" onclick="if(event.target===this) toggleToolsModal()">
   <div class="modal-content">
     <div style="font-weight: 700; font-size: 16px; margin-bottom: 8px;">Options & Actions</div>
-    <button class="btn-sm btn-primary" onclick="recalculerTout(); toggleToolsModal();">⟳ Mettre à jour les calculs</button>
-    <button class="btn-sm" onclick="exportData(); toggleToolsModal();">⬇ Sauvegarder les données</button>
-    <button class="btn-sm" onclick="document.getElementById('importFile').click(); toggleToolsModal();">⬆ Ouvrir un fichier</button>
+    <button class="btn-sm btn-primary" onclick="recalculerTout(); toggleToolsModal();">⟳ Recalculer</button>
+    <button class="btn-sm" onclick="exportData(); toggleToolsModal();">⬇ Sauvegarder fichier .json</button>
+    <button class="btn-sm" onclick="document.getElementById('importFile').click(); toggleToolsModal();">⬆ Charger fichier .json</button>
     <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
     <button class="btn-sm" onclick="toggleToolsModal()" style="margin-top: 8px; border:none; background:transparent; color:var(--text3);">Fermer</button>
   </div>
@@ -230,10 +218,10 @@ body {
 
 <div class="main">
 
-<!-- SECTION 0: SOMMAIRE -->
+<!-- SOMMAIRE -->
 <div id="section-sommaire" class="section active">
   <div class="page-title">En un coup d'œil</div>
-  <div class="page-subtitle">Résumé de la santé financière du couple</div>
+  <div class="page-subtitle">Résumé de la sécurité financière</div>
 
   <div class="hero-card">
     <div class="hero-title">SÉCURITÉ FINANCIÈRE JUSQU'À</div>
@@ -258,18 +246,18 @@ body {
 
   <div class="card">
     <div class="card-title">💡 Prochaines étapes</div>
-    <ul style="padding-left:18px; color:var(--text2); font-size: 14px; line-height: 1.7;">
-      <li><strong>Go-Go :</strong> Jusqu'à <span id="sommaire-age-gogo">72</span> ans.</li>
-      <li><strong>Travail :</strong> Revenus autonomes jusqu'en 2027.</li>
+    <ul style="padding-left:18px; color:var(--text2); font-size: 13px; line-height: 1.7;">
+      <li><strong>Go-Go :</strong> Jusqu'à <span id="sommaire-age-gogo">72</span> ans (Sylvie).</li>
+      <li><strong>Travail :</strong> Revenus autonomes jusqu en 2027 inclusivement.</li>
       <li><strong>Maison :</strong> Vente prévue en <span id="sommaire-annee-maison">2036</span> (<span id="sommaire-montant-maison">200 000 $</span>).</li>
     </ul>
   </div>
 </div>
 
-<!-- SECTION 1: BUDGET -->
+<!-- BUDGET -->
 <div id="section-budget" class="section">
   <div class="page-title">Budget de Décaissement</div>
-  <div class="page-subtitle">Ajustez les montants mensuels par phase</div>
+  <div class="page-subtitle">Dépenses mensuelles selon les phases de vie</div>
 
   <div class="sub-tabs">
     <button class="sub-tab active" onclick="setPhase('gogo', this)">⚡ Go-Go</button>
@@ -284,28 +272,28 @@ body {
       <span style="font-weight: 700; color: var(--gold); font-size: 20px;" id="total-mensuel-display">0 $</span>
     </div>
   </div>
-  <button class="btn-sm" style="width: 100%; margin-top: 8px;" onclick="ajouterCategorie()">+ Ajouter une catégorie</button>
+  <button class="btn-sm" style="width: 100%;" onclick="ajouterCategorie()">+ Ajouter une catégorie</button>
 </div>
 
-<!-- SECTION 2: DONNÉES -->
+<!-- DONNÉES -->
 <div id="section-donnees" class="section">
   <div class="page-title">Vos Données</div>
-  <div class="page-subtitle">Modifier les avoirs et les rentes</div>
+  <div class="page-subtitle">Comptes, rentes et hypothèses</div>
 
   <div class="sub-tabs">
     <button class="sub-tab active" onclick="showDonneesSubTab('profil', this)">👥 Profil</button>
-    <button class="sub-tab" onclick="showDonneesSubTab('capital', this)">💼 Épargne</button>
+    <button class="sub-tab" onclick="showDonneesSubTab('capital', this)">💼 Placements</button>
     <button class="sub-tab" onclick="showDonneesSubTab('pensions', this)">🏛 Rentes</button>
-    <button class="sub-tab" onclick="showDonneesSubTab('extra_revenus',this)">💵 Travail/Maison</button>
-    <button class="sub-tab" onclick="showDonneesSubTab('hypotheses',this)">⚙️ Âges/Rend.</button>
+    <button class="sub-tab" onclick="showDonneesSubTab('extra_revenus',this)">💵 Autonome/Maison</button>
+    <button class="sub-tab" onclick="showDonneesSubTab('hypotheses',this)">⚙️ Hypothèses</button>
   </div>
 
   <div id="donnees-content"></div>
 </div>
 
-<!-- SECTION 3: GRAPHIC -->
+<!-- GRAPHISQUES -->
 <div id="section-resultats" class="section">
-  <div class="page-title">Projections</div>
+  <div class="page-title">Graphiques</div>
   <div class="page-subtitle">Évolution visuelle de votre avoir</div>
 
   <div class="card">
@@ -313,25 +301,29 @@ body {
     <div class="chart-container"><canvas id="chart-capital"></canvas></div>
   </div>
   <div class="card">
-    <div class="card-title">Sources de Revenus</div>
+    <div class="card-title">Sources des Revenus Annuels</div>
     <div class="chart-container"><canvas id="chart-sources"></canvas></div>
   </div>
 </div>
 
-<!-- SECTION 4: DÉTAILS -->
+<!-- DETAILS (TABLEAU DÉTAILLÉ COMPLET) -->
 <div id="section-details" class="section">
-  <div class="page-title">Tableau Annuel</div>
-  <div class="page-subtitle">Détail année par année</div>
+  <div class="page-title">Tableau Annuel Détaillé</div>
+  <div class="page-subtitle">Projection complète année par année</div>
 
   <div class="card" style="overflow-x:auto; padding: 8px;">
     <table class="data-table">
       <thead>
         <tr>
           <th>Année</th>
-          <th>Âges</th>
+          <th>Âge (S/C)</th>
           <th>Capital Début</th>
-          <th>Rentes</th>
+          <th>Rentes Fixes</th>
+          <th>Travail/Vente</th>
+          <th>FERR Oblig.</th>
+          <th>Retrait Extra</th>
           <th>Dépenses</th>
+          <th>Impôts Est.</th>
           <th>Capital Fin</th>
         </tr>
       </thead>
@@ -383,21 +375,24 @@ const DEFAULT_INPUTS = {
 const DEFAULT_BUDGET = {
   gogo: [
     { cat: "Habitation", items: [{ nom: "Assurances Habitation", mensuel: 153.08 }, { nom: "Taxes Municipales/scolaires", mensuel: 212.79 }, { nom: "Propane", mensuel: 75 }, { nom: "Mobilier&Déco&Reno", mensuel: 200 }, { nom: "Hydro-Quebec", mensuel: 143.83 }] },
-    { cat: "Vie courante", items: [{ nom: "Épicerie", mensuel: 1500 }, { nom: "Restaurants", mensuel: 300 }, { nom: "Bell (Cell/Web/TV)", mensuel: 261.03 }, { nom: "Spotify/Streaming", mensuel: 28 }, { nom: "Coiffure", mensuel: 100 }, { nom: "Amazon/Cadeaux", mensuel: 200 }, { nom: "Pharmacie", mensuel: 50 }, { nom: "Entretien Voiture", mensuel: 200 }, { nom: "Assurances Auto", mensuel: 366.25 }, { nom: "Gaz Auto", mensuel: 850 }] },
-    { cat: "Santé & Voyages", items: [{ nom: "Assurances Privée", mensuel: 91.31 }, { nom: "Dentiste/Opto", mensuel: 200 }, { nom: "Voyages Hiver/Été", mensuel: 1200 }] },
-    { cat: "Loisir & Autres", items: [{ nom: "Sports / Bateau", mensuel: 1200 }, { nom: "Fond de prévoyance", mensuel: 500 }] }
+    { cat: "Vie courante", items: [{ nom: "Épicerie", mensuel: 1500 }, { nom: "Restaurants", mensuel: 300 }, { nom: "Bell (Cellulaire/Internet/TV)", mensuel: 261.03 }, { nom: "Spotify", mensuel: 13.99 }, { nom: "Streaming", mensuel: 13.99 }, { nom: "Coiffure", mensuel: 100 }, { nom: "Amazon (Articles maison/Cadeaux)", mensuel: 200 }, { nom: "Pharmacie", mensuel: 50 }, { nom: "Entretien Voiture", mensuel: 200 }, { nom: "Assurances Auto", mensuel: 366.25 }, { nom: "Gaz Auto", mensuel: 850 }] },
+    { cat: "Santé & Voyages", items: [{ nom: "Assurances Privée", mensuel: 91.31 }, { nom: "Dentiste", mensuel: 100 }, { nom: "Optométriste", mensuel: 100 }, { nom: "Voyage Hiver", mensuel: 600 }, { nom: "Voyages Été", mensuel: 600 }] },
+    { cat: "Loisir", items: [{ nom: "Sports Été", mensuel: 400 }, { nom: "Bateau", mensuel: 400 }, { nom: "Sports Hiver", mensuel: 400 }] },
+    { cat: "Autres", items: [{ nom: "Fond de prévoyance", mensuel: 500 }] }
   ],
   slowgo: [
     { cat: "Habitation", items: [{ nom: "Assurances Habitation", mensuel: 153.08 }, { nom: "Taxes Municipales/scolaires", mensuel: 212.79 }, { nom: "Propane", mensuel: 75 }, { nom: "Mobilier&Déco&Reno", mensuel: 200 }, { nom: "Hydro-Quebec", mensuel: 143.83 }] },
-    { cat: "Vie courante", items: [{ nom: "Épicerie", mensuel: 1500 }, { nom: "Restaurants", mensuel: 300 }, { nom: "Bell (Cell/Web/TV)", mensuel: 261.03 }, { nom: "Coiffure/Amazon", mensuel: 300 }, { nom: "Assurances Auto", mensuel: 200 }, { nom: "Gaz Auto", mensuel: 300 }] },
-    { cat: "Santé & Voyages", items: [{ nom: "Assurances Privée", mensuel: 91.31 }, { nom: "Voyages", mensuel: 1200 }] },
-    { cat: "Loisir & Autres", items: [{ nom: "Sports Hiver/Été", mensuel: 800 }, { nom: "Fond de prévoyance", mensuel: 500 }] }
+    { cat: "Vie courante", items: [{ nom: "Épicerie", mensuel: 1500 }, { nom: "Restaurants", mensuel: 300 }, { nom: "Bell (Cellulaire/Internet/TV)", mensuel: 261.03 }, { nom: "Spotify", mensuel: 13.99 }, { nom: "Streaming", mensuel: 13.99 }, { nom: "Coiffure", mensuel: 100 }, { nom: "Amazon (Articles maison/Cadeaux)", mensuel: 200 }, { nom: "Pharmacie", mensuel: 50 }, { nom: "Entretien Voiture", mensuel: 200 }, { nom: "Assurances Auto", mensuel: 200 }, { nom: "Gaz Auto", mensuel: 300 }] },
+    { cat: "Santé & Voyages", items: [{ nom: "Assurances Privée", mensuel: 91.31 }, { nom: "Dentiste", mensuel: 100 }, { nom: "Optométriste", mensuel: 100 }, { nom: "Voyage Hiver", mensuel: 600 }, { nom: "Voyages Été", mensuel: 600 }] },
+    { cat: "Loisir", items: [{ nom: "Sports Été", mensuel: 400 }, { nom: "Bateau", mensuel: 0 }, { nom: "Sports Hiver", mensuel: 400 }] },
+    { cat: "Autres", items: [{ nom: "Fond de prévoyance", mensuel: 500 }] }
   ],
   nogo: [
-    { cat: "Habitation", items: [{ nom: "Assurances/Taxes/Hydro", mensuel: 784.70 }] },
-    { cat: "Vie courante", items: [{ nom: "Épicerie", mensuel: 1500 }, { nom: "Restaurants", mensuel: 300 }, { nom: "Autre vie courante", mensuel: 600 }] },
-    { cat: "Santé & Voyages", items: [{ nom: "Santé & Voyages", mensuel: 1300 }] },
-    { cat: "Loisir & Autres", items: [{ nom: "Sports doux", mensuel: 200 }, { nom: "Fond de prévoyance", mensuel: 500 }] }
+    { cat: "Habitation", items: [{ nom: "Assurances Habitation", mensuel: 153.08 }, { nom: "Taxes Municipales/scolaires", mensuel: 212.79 }, { nom: "Propane", mensuel: 75 }, { nom: "Mobilier&Déco&Reno", mensuel: 200 }, { nom: "Hydro-Quebec", mensuel: 143.83 }] },
+    { cat: "Vie courante", items: [{ nom: "Épicerie", mensuel: 1500 }, { nom: "Restaurants", mensuel: 300 }, { nom: "Bell (Cellulaire/Internet/TV)", mensuel: 261.03 }, { nom: "Spotify", mensuel: 13.99 }, { nom: "Streaming", mensuel: 13.99 }, { nom: "Coiffure", mensuel: 100 }, { nom: "Amazon (Articles maison/Cadeaux)", mensuel: 200 }, { nom: "Pharmacie", mensuel: 50 }, { nom: "Entretien Voiture", mensuel: 200 }, { nom: "Assurances Auto", mensuel: 100 }, { nom: "Gaz Auto", mensuel: 100 }] },
+    { cat: "Santé & Voyages", items: [{ nom: "Assurances Privée", mensuel: 91.31 }, { nom: "Dentiste", mensuel: 100 }, { nom: "Optométriste", mensuel: 100 }, { nom: "Voyage Hiver", mensuel: 600 }, { nom: "Voyages Été", mensuel: 600 }] },
+    { cat: "Loisir", items: [{ nom: "Sports Été", mensuel: 100 }, { nom: "Sports Hiver", mensuel: 100 }] },
+    { cat: "Autres", items: [{ nom: "Fond de prévoyance", mensuel: 500 }] }
   ]
 };
 
@@ -421,6 +416,7 @@ function showSection(id, btnEl) {
   if (id === 'details') renderDetails();
 }
 
+// ALGORITHME DE CALCUL COMPLET FIABLE
 function projeterDecaissement() {
   const inp = APP.inputs;
   const duree = 30;
@@ -461,6 +457,7 @@ function projeterDecaissement() {
     const ferrOblig = ferrF + ferrH;
 
     st.reerF -= ferrF; st.reerH -= ferrH;
+
     const revenuImposable = rentesFixes + travailAnnuel + ferrOblig;
     const impotsEstimes = revenuImposable * 0.15;
     const revenuNetDisponible = revenuImposable - impotsEstimes;
@@ -474,6 +471,14 @@ function projeterDecaissement() {
         const piger = Math.min(reste, celiTot);
         st.celiF -= piger * (st.celiF / celiTot); st.celiH -= piger * (st.celiH / celiTot);
         retraitExtra += piger; reste -= piger;
+      }
+      if (reste > 0) {
+        const neTot = st.nonEnregF + st.nonEnregH;
+        if (neTot > 0) {
+          const pigerNE = Math.min(reste, neTot);
+          st.nonEnregF -= pigerNE * (st.nonEnregF / neTot); st.nonEnregH -= pigerNE * (st.nonEnregH / neTot);
+          retraitExtra += pigerNE; reste -= pigerNE;
+        }
       }
       if (reste > 0) {
         const reerTot = st.reerF + st.reerH;
@@ -493,7 +498,7 @@ function projeterDecaissement() {
     st.nonEnregH = Math.max(0, st.nonEnregH) * (1 + inp.rendement);
 
     const capFin = st.reerF + st.celiF + st.nonEnregF + st.reerH + st.celiH + st.nonEnregH;
-    lignes.push({ annee, ageF, ageH, capDebut, rentesFixes, revenusExtra: travailAnnuel + venteMaison, ferrObligatoire: ferrOblig, retraitExtra, depenses, capFin });
+    lignes.push({ annee, ageF, ageH, capDebut, rentesFixes, revenusExtra: travailAnnuel + venteMaison, ferrObligatoire: ferrOblig, retraitExtra, depenses, impotsEstimes, capFin });
   }
 
   APP.resultats = { lignes };
@@ -568,6 +573,27 @@ function updateMensuel(phase, cIdx, iIdx, val) {
   save();
 }
 
+function ajouterLigne(cIdx) {
+  APP.budget[APP.phase][cIdx].items.push({ nom: 'Nouveau poste', mensuel: 0 });
+  save(); renderBudget();
+}
+
+function supprimerLigne(cIdx, iIdx) {
+  APP.budget[APP.phase][cIdx].items.splice(iIdx, 1);
+  save(); renderBudget();
+}
+
+function ajouterCategorie() {
+  const nom = prompt('Nom de la nouvelle catégorie:');
+  if (nom) {
+    ['gogo', 'slowgo', 'nogo'].forEach(p => {
+      if (!APP.budget[p]) APP.budget[p] = [];
+      APP.budget[p].push({ cat: nom, items: [{ nom: 'Poste 1', mensuel: 0 }] });
+    });
+    save(); renderBudget();
+  }
+}
+
 function showDonneesSubTab(tab, btnEl) {
   btnEl.parentElement.querySelectorAll('.sub-tab').forEach(b => b.classList.remove('active'));
   btnEl.classList.add('active');
@@ -592,11 +618,13 @@ function showDonneesSubTab(tab, btnEl) {
         <div class="card-title">${inp.prenomFemme}</div>
         <div class="form-group"><label class="form-label">REER / FERR ($)</label><input type="number" class="form-input" value="${inp.reerFemme}" oninput="setInp('reerFemme',parseFloat(this.value)||0)"></div>
         <div class="form-group"><label class="form-label">CELI ($)</label><input type="number" class="form-input" value="${inp.celiFemme}" oninput="setInp('celiFemme',parseFloat(this.value)||0)"></div>
+        <div class="form-group"><label class="form-label">Non Enregistré ($)</label><input type="number" class="form-input" value="${inp.nonEnregFemme}" oninput="setInp('nonEnregFemme',parseFloat(this.value)||0)"></div>
       </div>
       <div class="card">
         <div class="card-title">${inp.prenomHomme}</div>
         <div class="form-group"><label class="form-label">REER / FERR ($)</label><input type="number" class="form-input" value="${inp.reerHomme}" oninput="setInp('reerHomme',parseFloat(this.value)||0)"></div>
         <div class="form-group"><label class="form-label">CELI ($)</label><input type="number" class="form-input" value="${inp.celiHomme}" oninput="setInp('celiHomme',parseFloat(this.value)||0)"></div>
+        <div class="form-group"><label class="form-label">Non Enregistré ($)</label><input type="number" class="form-input" value="${inp.nonEnregHomme}" oninput="setInp('nonEnregHomme',parseFloat(this.value)||0)"></div>
       </div>`;
   } else if (tab === 'pensions') {
     c.innerHTML = `
@@ -616,7 +644,10 @@ function showDonneesSubTab(tab, btnEl) {
       <div class="card">
         <div class="card-title">Travail Autonome ($/an)</div>
         <div class="form-group"><label class="form-label">${inp.prenomFemme}</label><input type="number" class="form-input" value="${inp.travailFemme}" oninput="setInp('travailFemme',parseFloat(this.value)||0)"></div>
+        <div class="form-group"><label class="form-label">Jusqu'en (année)</label><input type="number" class="form-input" value="${inp.travailFinAnneeFemme}" oninput="setInp('travailFinAnneeFemme',parseInt(this.value)||2027)"></div>
+        <hr style="margin:12px 0; border:none; border-top:1px solid var(--border);">
         <div class="form-group"><label class="form-label">${inp.prenomHomme}</label><input type="number" class="form-input" value="${inp.travailHomme}" oninput="setInp('travailHomme',parseFloat(this.value)||0)"></div>
+        <div class="form-group"><label class="form-label">Jusqu'en (année)</label><input type="number" class="form-input" value="${inp.travailFinAnneeHomme}" oninput="setInp('travailFinAnneeHomme',parseInt(this.value)||2027)"></div>
       </div>
       <div class="card">
         <div class="card-title">🏡 Vente Maison</div>
@@ -628,6 +659,7 @@ function showDonneesSubTab(tab, btnEl) {
       <div class="card">
         <div class="card-title">Ages Limites & Rendements</div>
         <div class="form-group"><label class="form-label">Âge fin Go-Go</label><input type="number" class="form-input" value="${inp.ageFinGogo}" oninput="setInp('ageFinGogo',parseInt(this.value)||72)"></div>
+        <div class="form-group"><label class="form-label">Âge fin Slow-Go</label><input type="number" class="form-input" value="${inp.ageFinSlowgo}" oninput="setInp('ageFinSlowgo',parseInt(this.value)||77)"></div>
         <div class="form-group"><label class="form-label">Rendement des placements (%)</label><input type="number" step="0.1" class="form-input" value="${(inp.rendement*100).toFixed(1)}" oninput="setInp('rendement',parseFloat(this.value)/100||0.04)"></div>
         <div class="form-group"><label class="form-label">Inflation (%)</label><input type="number" step="0.1" class="form-input" value="${(inp.inflation*100).toFixed(1)}" oninput="setInp('inflation',parseFloat(this.value)/100||0.023)"></div>
       </div>`;
@@ -659,6 +691,7 @@ function renderResultats() {
       labels: l.map(r => r.annee),
       datasets: [
         { label: 'Rentes/Travail', data: l.map(r => Math.round(r.rentesFixes + r.revenusExtra)), backgroundColor: '#3ecfb2', stack: 'a' },
+        { label: 'FERR Obligatoire', data: l.map(r => Math.round(r.ferrObligatoire)), backgroundColor: '#5b8dee', stack: 'a' },
         { label: 'Retrait Extra', data: l.map(r => Math.round(r.retraitExtra)), backgroundColor: '#e8654a', stack: 'a' }
       ]
     },
@@ -666,16 +699,21 @@ function renderResultats() {
   });
 }
 
+// RENDU COMPLET ET DÉTAILLÉ DU TABLEAU ANNUEL
 function renderDetails() {
   projeterDecaissement();
   const tbody = document.getElementById('details-tbody');
   tbody.innerHTML = APP.resultats.lignes.map(l => `
     <tr>
-      <td>${l.annee}</td>
+      <td style="font-weight:600; color:var(--text);">${l.annee}</td>
       <td>${l.ageF}/${l.ageH}a</td>
       <td>${fmt(l.capDebut)}</td>
       <td style="color:var(--teal);">${fmt(l.rentesFixes)}</td>
+      <td style="color:var(--green);">${fmt(l.revenusExtra)}</td>
+      <td style="color:var(--blue);">${fmt(l.ferrObligatoire)}</td>
+      <td style="color:var(--coral); font-weight:600;">${fmt(l.retraitExtra)}</td>
       <td>${fmt(l.depenses)}</td>
+      <td>${fmt(l.impotsEstimes)}</td>
       <td style="font-weight:700; color:var(--gold);">${fmt(l.capFin)}</td>
     </tr>
   `).join('');
