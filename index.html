@@ -22,6 +22,7 @@
   --coral: #e8654a;
   --blue: #5b8dee;
   --green: #4ecb71;
+  --purple: #9b6dff;
   --radius: 12px;
   --radius-sm: 8px;
 }
@@ -42,6 +43,7 @@ body.light-theme {
   --coral: #d9534f;
   --blue: #1e88e5;
   --green: #2e7d32;
+  --purple: #7b1fa2;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -150,19 +152,29 @@ body {
 .stat-label { font-size: 10px; color: var(--text3); text-transform: uppercase; font-weight: 700; margin-bottom: 4px; }
 .stat-value { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--text); }
 
-.sub-tabs { display: flex; background: var(--bg3); border-radius: var(--radius-sm); padding: 3px; margin-bottom: 16px; overflow-x: auto; }
+.sub-tabs { display: flex; background: var(--bg3); border-radius: var(--radius-sm); padding: 3px; margin-bottom: 12px; overflow-x: auto; }
 .sub-tab { flex: 1; padding: 8px 10px; border: none; background: transparent; color: var(--text2); font-size: 12px; font-weight: 600; border-radius: 6px; cursor: pointer; white-space: nowrap; text-align: center; }
 .sub-tab.active { background: var(--bg2); color: var(--gold); box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
 
-.budget-row { display: grid; grid-template-columns: 1fr 100px 32px; gap: 8px; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--border); }
-.budget-input { background: var(--bg3); border: 1px solid var(--border2); border-radius: 6px; color: var(--text); font-size: 14px; padding: 6px; width: 100%; text-align: right; }
-.del-btn { width: 32px; height: 32px; border: none; background: transparent; color: var(--coral); font-size: 20px; font-weight: bold; }
+/* AJUSTEMENT BUDGET AVEC ANNUEL ET SOMMAIRE EN HAUT */
+.budget-summary-banner {
+  background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 12px; margin-bottom: 16px; display: flex; justify-content: space-around; text-align: center;
+}
+.budget-summary-item { display: flex; flex-direction: column; }
+.budget-summary-label { font-size: 11px; color: var(--text3); text-transform: uppercase; font-weight: 700; }
+.budget-summary-val { font-size: 18px; font-weight: 700; color: var(--gold); font-family: 'DM Serif Display', serif; }
+
+.budget-row { display: grid; grid-template-columns: 1fr 85px 85px 28px; gap: 6px; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--border); }
+.budget-input { background: var(--bg3); border: 1px solid var(--border2); border-radius: 6px; color: var(--text); font-size: 13px; padding: 6px 4px; width: 100%; text-align: right; }
+.budget-annuel-col { font-size: 12px; color: var(--text2); text-align: right; font-weight: 500; }
+.del-btn { width: 28px; height: 28px; border: none; background: transparent; color: var(--coral); font-size: 18px; font-weight: bold; }
 
 .data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
 .data-table th, .data-table td { padding: 8px 6px; text-align: right; border-bottom: 1px solid var(--border); white-space: nowrap; }
 .data-table th:first-child, .data-table td:first-child { text-align: left; }
 
-.chart-container { position: relative; width: 100%; height: 260px; }
+.chart-container { position: relative; width: 100%; height: 280px; }
 </style>
 </head>
 <body>
@@ -257,7 +269,7 @@ body {
 <!-- BUDGET -->
 <div id="section-budget" class="section">
   <div class="page-title">Budget de Décaissement</div>
-  <div class="page-subtitle">Dépenses mensuelles selon les phases de vie</div>
+  <div class="page-subtitle">Dépenses par phase de vie</div>
 
   <div class="sub-tabs">
     <button class="sub-tab active" onclick="setPhase('gogo', this)">⚡ Go-Go</button>
@@ -265,12 +277,27 @@ body {
     <button class="sub-tab" onclick="setPhase('nogo', this)">🏠 No-Go</button>
   </div>
 
-  <div class="card">
-    <div id="budget-categories"></div>
-    <div style="margin-top: 16px; padding-top: 12px; border-top: 2px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
-      <span style="font-weight: 700;">Total mensuel :</span>
-      <span style="font-weight: 700; color: var(--gold); font-size: 20px;" id="total-mensuel-display">0 $</span>
+  <!-- BANNIÈRE DE SOMMAIRE EN HAUT -->
+  <div class="budget-summary-banner">
+    <div class="budget-summary-item">
+      <span class="budget-summary-label">Total Mensuel</span>
+      <span class="budget-summary-val" id="summary-mensuel-val">0 $</span>
     </div>
+    <div style="border-right: 1px solid var(--border);"></div>
+    <div class="budget-summary-item">
+      <span class="budget-summary-label">Total Annuel</span>
+      <span class="budget-summary-val" id="summary-annuel-val">0 $</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div style="display: grid; grid-template-columns: 1fr 85px 85px 28px; gap: 6px; padding-bottom: 6px; border-bottom: 1px solid var(--border); font-size: 10px; text-transform: uppercase; color: var(--text3); font-weight: 700;">
+      <span>Poste</span>
+      <span style="text-align: right;">Mensuel</span>
+      <span style="text-align: right;">Annuel</span>
+      <span></span>
+    </div>
+    <div id="budget-categories"></div>
   </div>
   <button class="btn-sm" style="width: 100%;" onclick="ajouterCategorie()">+ Ajouter une catégorie</button>
 </div>
@@ -291,10 +318,10 @@ body {
   <div id="donnees-content"></div>
 </div>
 
-<!-- GRAPHISQUES -->
+<!-- GRAPHISMES DE DÉCAISSEMENT -->
 <div id="section-resultats" class="section">
   <div class="page-title">Graphiques</div>
-  <div class="page-subtitle">Évolution visuelle de votre avoir</div>
+  <div class="page-subtitle">Évolution visuelle de vos revenus et avoirs</div>
 
   <div class="card">
     <div class="card-title">Évolution du Capital ($)</div>
@@ -375,21 +402,21 @@ const DEFAULT_INPUTS = {
 const DEFAULT_BUDGET = {
   gogo: [
     { cat: "Habitation", items: [{ nom: "Assurances Habitation", mensuel: 153.08 }, { nom: "Taxes Municipales/scolaires", mensuel: 212.79 }, { nom: "Propane", mensuel: 75 }, { nom: "Mobilier&Déco&Reno", mensuel: 200 }, { nom: "Hydro-Quebec", mensuel: 143.83 }] },
-    { cat: "Vie courante", items: [{ nom: "Épicerie", mensuel: 1500 }, { nom: "Restaurants", mensuel: 300 }, { nom: "Bell (Cellulaire/Internet/TV)", mensuel: 261.03 }, { nom: "Spotify", mensuel: 13.99 }, { nom: "Streaming", mensuel: 13.99 }, { nom: "Coiffure", mensuel: 100 }, { nom: "Amazon (Articles maison/Cadeaux)", mensuel: 200 }, { nom: "Pharmacie", mensuel: 50 }, { nom: "Entretien Voiture", mensuel: 200 }, { nom: "Assurances Auto", mensuel: 366.25 }, { nom: "Gaz Auto", mensuel: 850 }] },
+    { cat: "Vie courante", items: [{ nom: "Épicerie", mensuel: 1500 }, { nom: "Restaurants", mensuel: 300 }, { nom: "Bell (Cell/Internet/TV)", mensuel: 261.03 }, { nom: "Spotify", mensuel: 13.99 }, { nom: "Streaming", mensuel: 13.99 }, { nom: "Coiffure", mensuel: 100 }, { nom: "Amazon (Articles/Cadeaux)", mensuel: 200 }, { nom: "Pharmacie", mensuel: 50 }, { nom: "Entretien Voiture", mensuel: 200 }, { nom: "Assurances Auto", mensuel: 366.25 }, { nom: "Gaz Auto", mensuel: 850 }] },
     { cat: "Santé & Voyages", items: [{ nom: "Assurances Privée", mensuel: 91.31 }, { nom: "Dentiste", mensuel: 100 }, { nom: "Optométriste", mensuel: 100 }, { nom: "Voyage Hiver", mensuel: 600 }, { nom: "Voyages Été", mensuel: 600 }] },
     { cat: "Loisir", items: [{ nom: "Sports Été", mensuel: 400 }, { nom: "Bateau", mensuel: 400 }, { nom: "Sports Hiver", mensuel: 400 }] },
     { cat: "Autres", items: [{ nom: "Fond de prévoyance", mensuel: 500 }] }
   ],
   slowgo: [
     { cat: "Habitation", items: [{ nom: "Assurances Habitation", mensuel: 153.08 }, { nom: "Taxes Municipales/scolaires", mensuel: 212.79 }, { nom: "Propane", mensuel: 75 }, { nom: "Mobilier&Déco&Reno", mensuel: 200 }, { nom: "Hydro-Quebec", mensuel: 143.83 }] },
-    { cat: "Vie courante", items: [{ nom: "Épicerie", mensuel: 1500 }, { nom: "Restaurants", mensuel: 300 }, { nom: "Bell (Cellulaire/Internet/TV)", mensuel: 261.03 }, { nom: "Spotify", mensuel: 13.99 }, { nom: "Streaming", mensuel: 13.99 }, { nom: "Coiffure", mensuel: 100 }, { nom: "Amazon (Articles maison/Cadeaux)", mensuel: 200 }, { nom: "Pharmacie", mensuel: 50 }, { nom: "Entretien Voiture", mensuel: 200 }, { nom: "Assurances Auto", mensuel: 200 }, { nom: "Gaz Auto", mensuel: 300 }] },
+    { cat: "Vie courante", items: [{ nom: "Épicerie", mensuel: 1500 }, { nom: "Restaurants", mensuel: 300 }, { nom: "Bell (Cell/Internet/TV)", mensuel: 261.03 }, { nom: "Spotify", mensuel: 13.99 }, { nom: "Streaming", mensuel: 13.99 }, { nom: "Coiffure", mensuel: 100 }, { nom: "Amazon (Articles/Cadeaux)", mensuel: 200 }, { nom: "Pharmacie", mensuel: 50 }, { nom: "Entretien Voiture", mensuel: 200 }, { nom: "Assurances Auto", mensuel: 200 }, { nom: "Gaz Auto", mensuel: 300 }] },
     { cat: "Santé & Voyages", items: [{ nom: "Assurances Privée", mensuel: 91.31 }, { nom: "Dentiste", mensuel: 100 }, { nom: "Optométriste", mensuel: 100 }, { nom: "Voyage Hiver", mensuel: 600 }, { nom: "Voyages Été", mensuel: 600 }] },
     { cat: "Loisir", items: [{ nom: "Sports Été", mensuel: 400 }, { nom: "Bateau", mensuel: 0 }, { nom: "Sports Hiver", mensuel: 400 }] },
     { cat: "Autres", items: [{ nom: "Fond de prévoyance", mensuel: 500 }] }
   ],
   nogo: [
     { cat: "Habitation", items: [{ nom: "Assurances Habitation", mensuel: 153.08 }, { nom: "Taxes Municipales/scolaires", mensuel: 212.79 }, { nom: "Propane", mensuel: 75 }, { nom: "Mobilier&Déco&Reno", mensuel: 200 }, { nom: "Hydro-Quebec", mensuel: 143.83 }] },
-    { cat: "Vie courante", items: [{ nom: "Épicerie", mensuel: 1500 }, { nom: "Restaurants", mensuel: 300 }, { nom: "Bell (Cellulaire/Internet/TV)", mensuel: 261.03 }, { nom: "Spotify", mensuel: 13.99 }, { nom: "Streaming", mensuel: 13.99 }, { nom: "Coiffure", mensuel: 100 }, { nom: "Amazon (Articles maison/Cadeaux)", mensuel: 200 }, { nom: "Pharmacie", mensuel: 50 }, { nom: "Entretien Voiture", mensuel: 200 }, { nom: "Assurances Auto", mensuel: 100 }, { nom: "Gaz Auto", mensuel: 100 }] },
+    { cat: "Vie courante", items: [{ nom: "Épicerie", mensuel: 1500 }, { nom: "Restaurants", mensuel: 300 }, { nom: "Bell (Cell/Internet/TV)", mensuel: 261.03 }, { nom: "Spotify", mensuel: 13.99 }, { nom: "Streaming", mensuel: 13.99 }, { nom: "Coiffure", mensuel: 100 }, { nom: "Amazon (Articles/Cadeaux)", mensuel: 200 }, { nom: "Pharmacie", mensuel: 50 }, { nom: "Entretien Voiture", mensuel: 200 }, { nom: "Assurances Auto", mensuel: 100 }, { nom: "Gaz Auto", mensuel: 100 }] },
     { cat: "Santé & Voyages", items: [{ nom: "Assurances Privée", mensuel: 91.31 }, { nom: "Dentiste", mensuel: 100 }, { nom: "Optométriste", mensuel: 100 }, { nom: "Voyage Hiver", mensuel: 600 }, { nom: "Voyages Été", mensuel: 600 }] },
     { cat: "Loisir", items: [{ nom: "Sports Été", mensuel: 100 }, { nom: "Sports Hiver", mensuel: 100 }] },
     { cat: "Autres", items: [{ nom: "Fond de prévoyance", mensuel: 500 }] }
@@ -416,7 +443,7 @@ function showSection(id, btnEl) {
   if (id === 'details') renderDetails();
 }
 
-// ALGORITHME DE CALCUL COMPLET FIABLE
+// ALGORITHME DE CALCUL DÉTAILLÉ
 function projeterDecaissement() {
   const inp = APP.inputs;
   const duree = 30;
@@ -439,7 +466,11 @@ function projeterDecaissement() {
     else if (ageF > inp.ageFinGogo) depenseBase = bSlowgo;
 
     const depenses = depenseBase * Math.pow(1 + inp.inflation, i);
-    const rentesFixes = (inp.rrqFemme + inp.psvFemme + inp.pensionPDFemme + inp.rrqHomme + inp.psvHomme + inp.pensionPDHomme) * Math.pow(1 + inp.inflation, i);
+
+    // Décomposition détaillée des revenus
+    const gouvAnnuel = (inp.rrqFemme + inp.psvFemme + inp.rrqHomme + inp.psvHomme) * Math.pow(1 + inp.inflation, i);
+    const pensionPriveeAnnuelle = (inp.pensionPDFemme + inp.pensionPDHomme) * Math.pow(1 + inp.inflation, i);
+    const rentesFixes = gouvAnnuel + pensionPriveeAnnuelle;
 
     let travailAnnuel = 0;
     if (annee <= inp.travailFinAnneeFemme) travailAnnuel += inp.travailFemme;
@@ -498,7 +529,11 @@ function projeterDecaissement() {
     st.nonEnregH = Math.max(0, st.nonEnregH) * (1 + inp.rendement);
 
     const capFin = st.reerF + st.celiF + st.nonEnregF + st.reerH + st.celiH + st.nonEnregH;
-    lignes.push({ annee, ageF, ageH, capDebut, rentesFixes, revenusExtra: travailAnnuel + venteMaison, ferrObligatoire: ferrOblig, retraitExtra, depenses, impotsEstimes, capFin });
+    lignes.push({
+      annee, ageF, ageH, capDebut, rentesFixes, gouvAnnuel, pensionPriveeAnnuelle,
+      revenusExtra: travailAnnuel + venteMaison, ferrObligatoire: ferrOblig,
+      retraitExtra, depenses, impotsEstimes, capFin
+    });
   }
 
   APP.resultats = { lignes };
@@ -547,29 +582,36 @@ function renderBudget() {
 
   cats.forEach((cat, cIdx) => {
     const cDiv = document.createElement('div');
-    cDiv.innerHTML = `<div style="font-size:11px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-top:10px;">${cat.cat}</div>`;
+    cDiv.innerHTML = `<div style="font-size:11px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-top:12px; margin-bottom:4px;">${cat.cat}</div>`;
 
     cat.items.forEach((item, iIdx) => {
-      totalM += (parseFloat(item.mensuel) || 0);
+      const m = parseFloat(item.mensuel) || 0;
+      totalM += m;
       const row = document.createElement('div');
       row.className = 'budget-row';
       row.innerHTML = `
-        <input type="text" class="form-input" style="padding:6px; font-size:14px;" value="${item.nom}" oninput="APP.budget['${APP.phase}'][${cIdx}].items[${iIdx}].nom=this.value; save();">
-        <input type="number" class="budget-input" value="${item.mensuel}" oninput="updateMensuel('${APP.phase}', ${cIdx}, ${iIdx}, this.value)">
+        <input type="text" class="form-input" style="padding:4px 6px; font-size:13px;" value="${item.nom}" oninput="APP.budget['${APP.phase}'][${cIdx}].items[${iIdx}].nom=this.value; save();">
+        <input type="number" class="budget-input" value="${m}" oninput="updateMensuel('${APP.phase}', ${cIdx}, ${iIdx}, this.value)">
+        <span class="budget-annuel-col">${fmt(m * 12)}</span>
         <button class="del-btn" onclick="supprimerLigne(${cIdx}, ${iIdx})">×</button>
       `;
       cDiv.appendChild(row);
     });
     container.appendChild(cDiv);
   });
-  document.getElementById('total-mensuel-display').textContent = fmt(totalM);
+
+  // METTRE À JOUR LA BANNIÈRE DU HAUT
+  document.getElementById('summary-mensuel-val').textContent = fmt(totalM);
+  document.getElementById('summary-annuel-val').textContent = fmt(totalM * 12);
 }
 
 function updateMensuel(phase, cIdx, iIdx, val) {
   APP.budget[phase][cIdx].items[iIdx].mensuel = parseFloat(val) || 0;
   let totalM = 0;
   APP.budget[phase].forEach(c => c.items.forEach(i => totalM += (parseFloat(i.mensuel) || 0)));
-  document.getElementById('total-mensuel-display').textContent = fmt(totalM);
+  document.getElementById('summary-mensuel-val').textContent = fmt(totalM);
+  document.getElementById('summary-annuel-val').textContent = fmt(totalM * 12);
+  renderBudget();
   save();
 }
 
@@ -670,6 +712,7 @@ function setInp(key, val) {
   APP.inputs[key] = val; save();
 }
 
+// RENDU DES GRAPHIQUES AVEC LES 3 SÉPARATIONS DEMANDÉES (REVENU / RENTE / GOUV)
 function renderResultats() {
   projeterDecaissement();
   const l = APP.resultats.lignes; if (!l.length) return;
@@ -679,7 +722,7 @@ function renderResultats() {
     type: 'line',
     data: {
       labels: l.map(r => r.annee),
-      datasets: [{ label: 'Capital', data: l.map(r => Math.round(r.capFin)), borderColor: '#d4af37', backgroundColor: 'rgba(212,175,55,0.15)', fill: true }]
+      datasets: [{ label: 'Capital Total', data: l.map(r => Math.round(r.capFin)), borderColor: '#d4af37', backgroundColor: 'rgba(212,175,55,0.15)', fill: true }]
     },
     options: { responsive: true, maintainAspectRatio: false }
   });
@@ -690,16 +733,16 @@ function renderResultats() {
     data: {
       labels: l.map(r => r.annee),
       datasets: [
-        { label: 'Rentes/Travail', data: l.map(r => Math.round(r.rentesFixes + r.revenusExtra)), backgroundColor: '#3ecfb2', stack: 'a' },
-        { label: 'FERR Obligatoire', data: l.map(r => Math.round(r.ferrObligatoire)), backgroundColor: '#5b8dee', stack: 'a' },
-        { label: 'Retrait Extra', data: l.map(r => Math.round(r.retraitExtra)), backgroundColor: '#e8654a', stack: 'a' }
+        { label: 'Revenu Travail/Vente', data: l.map(r => Math.round(r.revenusExtra)), backgroundColor: '#4ecb71', stack: 'a' },
+        { label: 'Pensions Privées', data: l.map(r => Math.round(r.pensionPriveeAnnuelle)), backgroundColor: '#5b8dee', stack: 'a' },
+        { label: 'Gouv. (RRQ / PSV)', data: l.map(r => Math.round(r.gouvAnnuel)), backgroundColor: '#9b6dff', stack: 'a' },
+        { label: 'Retrait Extra/FERR', data: l.map(r => Math.round(r.retraitExtra + r.ferrObligatoire)), backgroundColor: '#e8654a', stack: 'a' }
       ]
     },
     options: { responsive: true, maintainAspectRatio: false }
   });
 }
 
-// RENDU COMPLET ET DÉTAILLÉ DU TABLEAU ANNUEL
 function renderDetails() {
   projeterDecaissement();
   const tbody = document.getElementById('details-tbody');
