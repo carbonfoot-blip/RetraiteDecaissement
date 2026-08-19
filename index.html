@@ -394,6 +394,7 @@ function toggleToolsModal() {
   m.style.display = m.style.display === 'flex' ? 'none' : 'flex';
 }
 
+/* TAUX D'IMPOSITION AJUSTÉ À 20 % DANS LES HYPOTHÈSES PAR DÉFAUT */
 const DEFAULT_INPUTS = {
   prenomFemme: "Sylvie", anneeNaissanceFemme: 1959,
   prenomHomme: "Claude", anneeNaissanceHomme: 1955,
@@ -402,6 +403,7 @@ const DEFAULT_INPUTS = {
   rrqFemme: 13364, psvFemme: 9024, pensionPDFemme: 0,
   rrqHomme: 16667, psvHomme: 9024, pensionPDHomme: 16777,
   ageFinGogo: 76, ageFinSlowgo: 81, inflation: 0.023, rendement: 0.04,
+  tauxImpots: 0.20,
   travailFemme: 30000, travailHomme: 10000, travailFinAnneeFemme: 2027, travailFinAnneeHomme: 2027,
   venteMaisonAnnee: 2036, venteMaisonMontant: 300000
 };
@@ -453,6 +455,8 @@ function showSection(id, btnEl) {
 function projeterDecaissement() {
   const inp = APP.inputs;
   const duree = 30;
+  const tImpots = inp.tauxImpots !== undefined ? inp.tauxImpots : 0.20;
+
   let st = {
     reerF: parseFloat(inp.reerFemme)||0, celiF: parseFloat(inp.celiFemme)||0, nonEnregF: parseFloat(inp.nonEnregFemme)||0,
     reerH: parseFloat(inp.reerHomme)||0, celiH: parseFloat(inp.celiHomme)||0, nonEnregH: parseFloat(inp.nonEnregHomme)||0,
@@ -495,7 +499,7 @@ function projeterDecaissement() {
     st.reerF -= ferrF; st.reerH -= ferrH;
 
     const revenuImposable = rentesFixes + travailAnnuel + ferrOblig;
-    const impotsEstimes = revenuImposable * 0.15;
+    const impotsEstimes = revenuImposable * tImpots;
     const revenuNetDisponible = revenuImposable - impotsEstimes;
     const manqueAGagner = Math.max(0, depenses - revenuNetDisponible);
 
@@ -519,7 +523,7 @@ function projeterDecaissement() {
       if (reste > 0) {
         const reerTot = st.reerF + st.reerH;
         if (reerTot > 0) {
-          const pigerR = Math.min(reste / 0.8, reerTot);
+          const pigerR = Math.min(reste / (1 - tImpots), reerTot);
           st.reerF -= pigerR * (st.reerF / reerTot); st.reerH -= pigerR * (st.reerH / reerTot);
           retraitExtra += pigerR;
         }
@@ -723,6 +727,7 @@ function showDonneesSubTab(tab, btnEl) {
         <div class="form-group"><label class="form-label">Année prévue</label><input type="number" class="form-input" value="${inp.venteMaisonAnnee}" oninput="setInp('venteMaisonAnnee',parseInt(this.value)||2036)"></div>
       </div>`;
   } else if (tab === 'hypotheses') {
+    const tImp = (inp.tauxImpots !== undefined ? inp.tauxImpots : 0.20) * 100;
     c.innerHTML = `
       <div class="card">
         <div class="card-title">Ages Limites & Rendements</div>
@@ -730,12 +735,13 @@ function showDonneesSubTab(tab, btnEl) {
         <div class="form-group"><label class="form-label">Âge fin Slow-Go</label><input type="number" class="form-input" value="${inp.ageFinSlowgo}" oninput="setInp('ageFinSlowgo',parseInt(this.value)||81)"></div>
         <div class="form-group"><label class="form-label">Rendement des placements (%)</label><input type="number" step="0.1" class="form-input" value="${(inp.rendement*100).toFixed(1)}" oninput="setInp('rendement',parseFloat(this.value)/100||0.04)"></div>
         <div class="form-group"><label class="form-label">Inflation (%)</label><input type="number" step="0.1" class="form-input" value="${(inp.inflation*100).toFixed(1)}" oninput="setInp('inflation',parseFloat(this.value)/100||0.023)"></div>
+        <div class="form-group"><label class="form-label">Taux d'imposition estimé (%)</label><input type="number" step="1" class="form-input" value="${tImp.toFixed(0)}" oninput="setInp('tauxImpots',parseFloat(this.value)/100||0.20)"></div>
       </div>`;
   }
 }
 
 function setInp(key, val) {
-  APP.inputs[key] = val; save();
+  APP.inputs[key] = val; save(); projeterDecaissement();
 }
 
 function renderResultats() {
@@ -794,6 +800,7 @@ function load() {
   const i = localStorage.getItem('retraite_decaissement_v1_inputs');
   if (b) APP.budget = JSON.parse(b);
   if (i) APP.inputs = JSON.parse(i);
+  if (APP.inputs.tauxImpots === undefined) APP.inputs.tauxImpots = 0.20;
 }
 
 function recalculerTout() { save(); projeterDecaissement(); }
