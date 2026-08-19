@@ -340,8 +340,8 @@ function projeterDecaissement() {
   const duree = 30;
 
   let st = {
-    reerF: inp.reerFemme, celiF: inp.celiFemme, nonEnregF: inp.nonEnregFemme,
-    reerH: inp.reerHomme, celiH: inp.celiHomme, nonEnregH: inp.nonEnregHomme,
+    reerF: parseFloat(inp.reerFemme)||0, celiF: parseFloat(inp.celiFemme)||0, nonEnregF: parseFloat(inp.nonEnregFemme)||0,
+    reerH: parseFloat(inp.reerHomme)||0, celiH: parseFloat(inp.celiHomme)||0, nonEnregH: parseFloat(inp.nonEnregHomme)||0,
   };
 
   const calcBudgetAnnuel = (p) => (APP.budget[p] || []).reduce((s, c) => s + c.items.reduce((si, i) => si + (parseFloat(i.mensuel)||0) * 12, 0), 0);
@@ -367,48 +367,77 @@ function projeterDecaissement() {
 
     const capDebut = st.reerF + st.celiF + st.nonEnregF + st.reerH + st.celiH + st.nonEnregH;
 
+    // 1. Retraits FERR obligatoires
     const ferrF = ageF >= 71 ? st.reerF * (FERR_RATES[Math.min(ageF, 85)] || 0.09) : 0;
     const ferrH = ageH >= 71 ? st.reerH * (FERR_RATES[Math.min(ageH, 85)] || 0.09) : 0;
+    const ferrOblig = ferrF + ferrH;
 
     st.reerF -= ferrF;
     st.reerH -= ferrH;
 
-    const entreesNettesEstimees = rentesFixes + (ferrF + ferrH) * 0.8;
-    const besoinAdditionnel = Math.max(0, depenses - entreesNettesEstimees);
+    // 2. Calcul de l'impôt estimé (rentes + FERR)
+    const revenuImposable = rentesFixes + ferrOblig;
+    const impotsEstimes = revenuImposable * 0.15; // Taux effectif estimé
 
+    // 3. Entrées nettes en poche
+    const revenuNetDisponible = revenuImposable - impotsEstimes;
+
+    // 4. Besoins de retrait complémentaire (si dépenses > revenu net)
+    const manqueAGagner = Math.max(0, depenses - revenuNetDisponible);
     let retraitExtra = 0;
-    if (besoinAdditionnel > 0) {
-      const celiTot = st.celiF + st.celiH;
-      const rCeli = Math.min(besoinAdditionnel, celiTot);
-      if (celiTot > 0) {
-        st.celiF -= rCeli * (st.celiF / celiTot);
-        st.celiH -= rCeli * (st.celiH / celiTot);
-      }
-      retraitExtra += rCeli;
 
-      const reste1 = besoinAdditionnel - rCeli;
-      if (reste1 > 0) {
-        const nonEnregTot = st.nonEnregF + st.nonEnregH;
-        const rNE = Math.min(reste1, nonEnregTot);
-        if (nonEnregTot > 0) {
-          st.nonEnregF -= rNE * (st.nonEnregF / nonEnregTot);
-          st.nonEnregH -= rNE * (st.nonEnregH / nonEnregTot);
+    if (manqueAGagner > 0) {
+      let resteAPromener = manqueAGagner;
+
+      // A) Piger dans le CELI (non imposable)
+      const celiTot = st.celiF + st.celiH;
+      if (celiTot > 0) {
+        const pigerCELI = Math.min(resteAPromener, celiTot);
+        st.celiF -= pigerCELI * (st.celiF / celiTot);
+        st.celiH -= pigerCELI * (st.celiH / celiTot);
+        retraitExtra += pigerCELI;
+        resteAPromener -= pigerCELI;
+      }
+
+      // B) Piger dans le Non-Enregistré
+      if (resteAPromener > 0) {
+        const neTot = st.nonEnregF + st.nonEnregH;
+        if (neTot > 0) {
+          const pigerNE = Math.min(resteAPromener, neTot);
+          st.nonEnregF -= pigerNE * (st.nonEnregF / neTot);
+          st.nonEnregH -= pigerNE * (st.nonEnregH / neTot);
+          retraitExtra += pigerNE;
+          resteAPromener -= pigerNE;
         }
-        retraitExtra += rNE;
+      }
+
+      // C) Si encore insuffisant : retraits FERR additionnels (avec gross-up d'impôt ~20%)
+      if (resteAPromener > 0) {
+        const reerTot = st.reerF + st.reerH;
+        if (reerTot > 0) {
+          const pigerREERBrut = Math.min(resteAPromener / 0.8, reerTot);
+          st.reerF -= pigerREERBrut * (st.reerF / reerTot);
+          st.reerH -= pigerREERBrut * (st.reerH / reerTot);
+          retraitExtra += pigerREERBrut;
+        }
       }
     }
 
-    st.reerF *= (1 + inp.rendement); st.reerH *= (1 + inp.rendement);
-    st.celiF *= (1 + inp.rendement); st.celiH *= (1 + inp.rendement);
-    st.nonEnregF *= (1 + inp.rendement); st.nonEnregH *= (1 + inp.rendement);
+    // 5. Application du rendement de fin d'année sur les soldes restants
+    st.reerF = Math.max(0, st.reerF) * (1 + inp.rendement);
+    st.reerH = Math.max(0, st.reerH) * (1 + inp.rendement);
+    st.celiF = Math.max(0, st.celiF) * (1 + inp.rendement);
+    st.celiH = Math.max(0, st.celiH) * (1 + inp.rendement);
+    st.nonEnregF = Math.max(0, st.nonEnregF) * (1 + inp.rendement);
+    st.nonEnregH = Math.max(0, st.nonEnregH) * (1 + inp.rendement);
 
-    const capFin = Math.max(0, st.reerF + st.celiF + st.nonEnregF + st.reerH + st.celiH + st.nonEnregH);
+    const capFin = st.reerF + st.celiF + st.nonEnregF + st.reerH + st.celiH + st.nonEnregH;
 
     lignes.push({
       annee, ageF, ageH, capDebut, rentesFixes,
-      ferrObligatoire: ferrF + ferrH,
+      ferrObligatoire: ferrOblig,
       retraitExtra, depenses,
-      impotsEstimes: (rentesFixes + ferrF + ferrH) * 0.15,
+      impotsEstimes,
       capFin
     });
   }
