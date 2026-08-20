@@ -279,9 +279,9 @@ body {
   <div class="page-subtitle">Dépenses par phase de vie</div>
 
   <div class="sub-tabs">
-    <button class="sub-tab active" onclick="setPhase('gogo', this)">⚡ Go-Go</button>
-    <button class="sub-tab" onclick="setPhase('slowgo', this)">🕐 Slow-Go</button>
-    <button class="sub-tab" onclick="setPhase('nogo', this)">🏠 No-Go</button>
+    <button class="sub-tab active" id="tab-phase-gogo" onclick="setPhase('gogo', this)">⚡ Go-Go</button>
+    <button class="sub-tab" id="tab-phase-slowgo" onclick="setPhase('slowgo', this)">🕐 Slow-Go</button>
+    <button class="sub-tab" id="tab-phase-nogo" onclick="setPhase('nogo', this)">🏠 No-Go</button>
   </div>
 
   <!-- BANNIÈRE DE SOMMAIRE -->
@@ -384,7 +384,7 @@ function verifierPassword() {
 }
 
 function checkAuth() {
-  if (sessionStorage.setItem('retraite_auth_v2') === 'true') {
+  if (sessionStorage.getItem('retraite_auth_v2') === 'true') {
     document.getElementById('login-screen').style.display = 'none';
   }
 }
@@ -394,7 +394,7 @@ function toggleToolsModal() {
   m.style.display = m.style.display === 'flex' ? 'none' : 'flex';
 }
 
-/* DEFAUTS DU NOUVEAU JSON AVEC VENTE MAISON A 450 000 $ */
+/* DEFAUTS DU JSON COMPLET AVEC TOUTES LES LIGNES DE BUDGET ET PARAMÈTRES MIS À JOUR */
 const DEFAULT_INPUTS = {
   prenomFemme: "Sylvie", anneeNaissanceFemme: 1959,
   prenomHomme: "Claude", anneeNaissanceHomme: 1955,
@@ -448,8 +448,24 @@ function showSection(id, btnEl) {
   document.getElementById('section-' + id).classList.add('active');
   if (btnEl) btnEl.classList.add('active');
 
+  if (id === 'budget') updatePhaseTabLabels();
   if (id === 'resultats') renderResultats();
   if (id === 'details') renderDetails();
+}
+
+function updatePhaseTabLabels() {
+  const inp = APP.inputs;
+  const ageActuel = 2026 - inp.anneeNaissanceFemme;
+  const ageFinG = inp.ageFinGogo;
+  const ageFinS = inp.ageFinSlowgo;
+
+  const btnGogo = document.getElementById('tab-phase-gogo');
+  const btnSlowgo = document.getElementById('tab-phase-slowgo');
+  const btnNogo = document.getElementById('tab-phase-nogo');
+
+  if (btnGogo) btnGogo.textContent = `⚡ Go-Go (${ageActuel}-${ageFinG}a)`;
+  if (btnSlowgo) btnSlowgo.textContent = `🕐 Slow-Go (${ageFinG + 1}-${ageFinS}a)`;
+  if (btnNogo) btnNogo.textContent = `🏠 No-Go (${ageFinS + 1}+a)`;
 }
 
 function projeterDecaissement() {
@@ -741,7 +757,7 @@ function showDonneesSubTab(tab, btnEl) {
 }
 
 function setInp(key, val) {
-  APP.inputs[key] = val; save(); projeterDecaissement();
+  APP.inputs[key] = val; save(); projeterDecaissement(); updatePhaseTabLabels();
 }
 
 function renderResultats() {
@@ -803,7 +819,7 @@ function load() {
   if (APP.inputs.tauxImpots === undefined) APP.inputs.tauxImpots = 0.20;
 }
 
-function recalculerTout() { save(); projeterDecaissement(); }
+function recalculerTout() { save(); projeterDecaissement(); updatePhaseTabLabels(); }
 function exportData() {
   const blob = new Blob([JSON.stringify({ budget: APP.budget, inputs: APP.inputs }, null, 2)], { type: 'application/json' });
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
@@ -824,7 +840,7 @@ function importData(e) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  checkAuth(); load(); renderBudget();
+  checkAuth(); load(); renderBudget(); updatePhaseTabLabels();
   const el = document.querySelector('.sub-tabs .sub-tab');
   if (el) showDonneesSubTab('profil', el);
   projeterDecaissement();
