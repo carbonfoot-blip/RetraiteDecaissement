@@ -268,7 +268,7 @@ body {
     <ul style="padding-left:18px; color:var(--text2); font-size: 13px; line-height: 1.7;">
       <li><strong>Go-Go :</strong> Jusqu'à <span id="sommaire-age-gogo">76</span> ans (Sylvie).</li>
       <li><strong>Travail :</strong> Revenus autonomes jusqu en 2027 inclusivement.</li>
-      <li><strong>Maison :</strong> Vente prévue en <span id="sommaire-annee-maison">2036</span> (<span id="sommaire-montant-maison">300 000 $</span>).</li>
+      <li><strong>Maison :</strong> Vente prévue en <span id="sommaire-annee-maison">2036</span> (<span id="sommaire-montant-maison">450 000 $</span>).</li>
     </ul>
   </div>
 </div>
@@ -384,7 +384,7 @@ function verifierPassword() {
 }
 
 function checkAuth() {
-  if (sessionStorage.getItem('retraite_auth_v2') === 'true') {
+  if (sessionStorage.setItem('retraite_auth_v2') === 'true') {
     document.getElementById('login-screen').style.display = 'none';
   }
 }
@@ -394,7 +394,7 @@ function toggleToolsModal() {
   m.style.display = m.style.display === 'flex' ? 'none' : 'flex';
 }
 
-/* TAUX D'IMPOSITION AJUSTÉ À 20 % DANS LES HYPOTHÈSES PAR DÉFAUT */
+/* DEFAUTS DU NOUVEAU JSON AVEC VENTE MAISON A 450 000 $ */
 const DEFAULT_INPUTS = {
   prenomFemme: "Sylvie", anneeNaissanceFemme: 1959,
   prenomHomme: "Claude", anneeNaissanceHomme: 1955,
@@ -405,27 +405,27 @@ const DEFAULT_INPUTS = {
   ageFinGogo: 76, ageFinSlowgo: 81, inflation: 0.023, rendement: 0.04,
   tauxImpots: 0.20,
   travailFemme: 30000, travailHomme: 10000, travailFinAnneeFemme: 2027, travailFinAnneeHomme: 2027,
-  venteMaisonAnnee: 2036, venteMaisonMontant: 300000
+  venteMaisonAnnee: 2036, venteMaisonMontant: 450000
 };
 
 const DEFAULT_BUDGET = {
   gogo: [
     { cat: "Habitation", items: [{ nom: "Assurances Habitation", mensuel: 153.08 }, { nom: "Taxes Municipales/scolaires", mensuel: 212.79 }, { nom: "Propane", mensuel: 75 }, { nom: "Mobilier&Déco&Reno", mensuel: 200 }, { nom: "Hydro-Quebec", mensuel: 143.83 }] },
-    { cat: "Vie courante", items: [{ nom: "Épicerie", mensuel: 1500 }, { nom: "Restaurants", mensuel: 300 }, { nom: "Bell (Cellulaire/Internet/TV)", mensuel: 261.03 }, { nom: "Spotify", mensuel: 13.99 }, { nom: "Streaming", mensuel: 13.99 }, { nom: "Coiffure", mensuel: 100 }, { nom: "Amazon (Articles maison/Cadeaux)", mensuel: 200 }, { nom: "Pharmacie", mensuel: 50 }, { nom: "Entretien Voiture", mensuel: 200 }, { nom: "Assurances Auto", mensuel: 366.25 }, { nom: "Gaz Auto", mensuel: 850 }] },
+    { cat: "Vie courante", items: [{ nom: "Épicerie", mensuel: 1500 }, { nom: "Restaurants", mensuel: 300 }, { nom: "Bell (Cellulaire/Internet/TV)", mensuel: 261.03 }, { nom: "Spotify", mensuel: 13.99 }, { nom: "Streaming", mensuel: 13.99 }, { nom: "Coiffure", mensuel: 100 }, { nom: "Amazon (Articles maison/Cadeaux)", mensuel: 200 }, { nom: "Pharmacie", mensuel: 50 }, { nom: "Entretien Voiture", mensuel: 200 }, { nom: "Assurances Auto", mensuel: 366.25 }, { nom: "Gaz Auto", mensuel: 600 }] },
     { cat: "Santé & Voyages", items: [{ nom: "Assurances Privée", mensuel: 91.31 }, { nom: "Dentiste", mensuel: 100 }, { nom: "Optométriste", mensuel: 100 }, { nom: "Voyage Hiver", mensuel: 600 }, { nom: "Voyages Été", mensuel: 600 }] },
     { cat: "Loisir", items: [{ nom: "Sports Été", mensuel: 400 }, { nom: "Bateau", mensuel: 400 }, { nom: "Sports Hiver", mensuel: 400 }] },
     { cat: "Autres", items: [{ nom: "Fond de prévoyance", mensuel: 500 }] }
   ],
   slowgo: [
-    { cat: "Habitation", items: [{ nom: "Mobilier&Déco", mensuel: 100 }, { nom: "Loyer", mensuel: 1500 }] },
+    { cat: "Habitation", items: [{ nom: "Mobilier&Déco", mensuel: 100 }, { nom: "Loyer", mensuel: 2000 }] },
     { cat: "Vie courante", items: [{ nom: "Épicerie", mensuel: 1000 }, { nom: "Restaurants", mensuel: 300 }, { nom: "Bell (Cellulaire/Internet/TV)", mensuel: 261.03 }, { nom: "Spotify", mensuel: 13.99 }, { nom: "Streaming", mensuel: 13.99 }, { nom: "Coiffure", mensuel: 100 }, { nom: "Amazon (Articles maison/Cadeaux)", mensuel: 200 }, { nom: "Pharmacie", mensuel: 50 }, { nom: "Entretien Voiture", mensuel: 100 }, { nom: "Assurances Auto", mensuel: 200 }, { nom: "Gaz Auto", mensuel: 200 }] },
     { cat: "Santé & Voyages", items: [{ nom: "Assurances Privée", mensuel: 91.31 }, { nom: "Dentiste", mensuel: 100 }, { nom: "Optométriste", mensuel: 100 }, { nom: "Voyage Hiver", mensuel: 600 }, { nom: "Voyages Été", mensuel: 600 }] },
     { cat: "Loisir", items: [{ nom: "Sports Été", mensuel: 200 }, { nom: "Bateau", mensuel: 0 }, { nom: "Sports Hiver", mensuel: 200 }] },
     { cat: "Autres", items: [{ nom: "Fond de prévoyance", mensuel: 500 }] }
   ],
   nogo: [
-    { cat: "Habitation", items: [{ nom: "Mobilier&Déco", mensuel: 100 }, { nom: "Loyer (residence)", mensuel: 1500 }] },
-    { cat: "Vie courante", items: [{ nom: "Épicerie", mensuel: 1500 }, { nom: "Restaurants", mensuel: 300 }, { nom: "Bell (Cellulaire/Internet/TV)", mensuel: 261.03 }, { nom: "Spotify", mensuel: 13.99 }, { nom: "Streaming", mensuel: 13.99 }, { nom: "Coiffure", mensuel: 100 }, { nom: "Amazon (Articles maison/Cadeaux)", mensuel: 200 }, { nom: "Pharmacie", mensuel: 50 }, { nom: "Transport en commun", mensuel: 200 }] },
+    { cat: "Habitation", items: [{ nom: "Mobilier&Déco", mensuel: 100 }, { nom: "Loyer (residence)", mensuel: 3800 }] },
+    { cat: "Vie courante", items: [{ nom: "Épicerie/Restaurants", mensuel: 300 }, { nom: "Bell (Cellulaire/Internet/TV)", mensuel: 50 }, { nom: "Coiffure", mensuel: 100 }, { nom: "Amazon (Articles maison/Cadeaux)", mensuel: 200 }, { nom: "Pharmacie", mensuel: 50 }] },
     { cat: "Santé & Voyages", items: [{ nom: "Assurances Privée", mensuel: 91.31 }, { nom: "Dentiste", mensuel: 100 }, { nom: "Optométriste", mensuel: 100 }, { nom: "Voyage Hiver", mensuel: 400 }, { nom: "Voyages Été", mensuel: 400 }] },
     { cat: "Loisir", items: [{ nom: "Loisirs", mensuel: 100 }] },
     { cat: "Autres", items: [{ nom: "Fond de prévoyance", mensuel: 300 }] }
