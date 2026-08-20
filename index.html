@@ -268,7 +268,7 @@ body {
     <ul style="padding-left:18px; color:var(--text2); font-size: 13px; line-height: 1.7;">
       <li><strong>Go-Go :</strong> Jusqu'à <span id="sommaire-age-gogo">76</span> ans (Sylvie).</li>
       <li><strong>Travail :</strong> Revenus autonomes jusqu en 2027 inclusivement.</li>
-      <li><strong>Maison :</strong> Vente prévue en <span id="sommaire-annee-maison">2036</span> (<span id="sommaire-montant-maison">450 000 $</span>).</li>
+      <li><strong>Maison :</strong> Vente prévue en <span id="sommaire-annee-maison">2036</span> (<span id="sommaire-montant-maison">300 000 $</span>).</li>
     </ul>
   </div>
 </div>
@@ -394,7 +394,7 @@ function toggleToolsModal() {
   m.style.display = m.style.display === 'flex' ? 'none' : 'flex';
 }
 
-/* DEFAUTS DU JSON COMPLET AVEC TOUTES LES LIGNES DE BUDGET ET PARAMÈTRES MIS À JOUR */
+/* VENTE MAISON RÉAJUSTÉE À 300 000 $ PAR DÉFAUT */
 const DEFAULT_INPUTS = {
   prenomFemme: "Sylvie", anneeNaissanceFemme: 1959,
   prenomHomme: "Claude", anneeNaissanceHomme: 1955,
@@ -405,7 +405,7 @@ const DEFAULT_INPUTS = {
   ageFinGogo: 76, ageFinSlowgo: 81, inflation: 0.023, rendement: 0.04,
   tauxImpots: 0.20,
   travailFemme: 30000, travailHomme: 10000, travailFinAnneeFemme: 2027, travailFinAnneeHomme: 2027,
-  venteMaisonAnnee: 2036, venteMaisonMontant: 450000
+  venteMaisonAnnee: 2036, venteMaisonMontant: 300000
 };
 
 const DEFAULT_BUDGET = {
@@ -453,6 +453,7 @@ function showSection(id, btnEl) {
   if (id === 'details') renderDetails();
 }
 
+/* FORMATTAGE SANS LE 'a' DANS LES PARENTHÈSES */
 function updatePhaseTabLabels() {
   const inp = APP.inputs;
   const ageActuel = 2026 - inp.anneeNaissanceFemme;
@@ -463,9 +464,9 @@ function updatePhaseTabLabels() {
   const btnSlowgo = document.getElementById('tab-phase-slowgo');
   const btnNogo = document.getElementById('tab-phase-nogo');
 
-  if (btnGogo) btnGogo.textContent = `⚡ Go-Go (${ageActuel}-${ageFinG}a)`;
-  if (btnSlowgo) btnSlowgo.textContent = `🕐 Slow-Go (${ageFinG + 1}-${ageFinS}a)`;
-  if (btnNogo) btnNogo.textContent = `🏠 No-Go (${ageFinS + 1}+a)`;
+  if (btnGogo) btnGogo.textContent = `⚡ Go-Go (${ageActuel}-${ageFinG})`;
+  if (btnSlowgo) btnSlowgo.textContent = `🕐 Slow-Go (${ageFinG + 1}-${ageFinS})`;
+  if (btnNogo) btnNogo.textContent = `🏠 No-Go (${ageFinS + 1}+)`;
 }
 
 function projeterDecaissement() {
