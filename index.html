@@ -182,6 +182,204 @@ body {
 .data-table th:first-child, .data-table td:first-child { text-align: left; }
 
 .chart-container { position: relative; width: 100%; height: 280px; }
+
+/* STYLES D'IMPRESSION (PDF) */
+#print-report { display: none; }
+
+@media print {
+  @page {
+    size: letter portrait;
+    margin: 8mm 8mm 8mm 8mm;
+  }
+  
+  html, body {
+    background: #ffffff !important;
+    color: #111827 !important;
+    font-size: 9pt !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  #login-screen, .nav-top, .nav-bottom, #modal-tools, .main {
+    display: none !important;
+  }
+
+  #print-report {
+    display: block !important;
+    background: #ffffff !important;
+    color: #111827 !important;
+    padding: 0 !important;
+  }
+
+  .print-page {
+    page-break-after: always;
+    break-after: page;
+    min-height: 96vh;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .print-page:last-child {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  .print-header {
+    border-bottom: 2px solid #b8860b;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .print-title {
+    font-size: 18pt;
+    font-family: 'DM Serif Display', serif;
+    color: #b8860b;
+    line-height: 1.1;
+  }
+  .print-subtitle {
+    font-size: 8.5pt;
+    color: #4b5563;
+    margin-top: 2px;
+  }
+  .print-meta {
+    font-size: 7.5pt;
+    color: #6b7280;
+    text-align: right;
+  }
+
+  .print-hero {
+    border: 1.5px solid #b8860b;
+    border-radius: 6px;
+    padding: 8px 12px;
+    text-align: center;
+    background: #fdfbf7 !important;
+    margin-bottom: 8px;
+  }
+  .print-hero-title {
+    font-size: 7.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #6b7280;
+  }
+  .print-hero-val {
+    font-size: 20pt;
+    font-family: 'DM Serif Display', serif;
+    color: #b8860b;
+    font-weight: 700;
+    margin: 1px 0;
+  }
+  .print-hero-sub {
+    font-size: 8pt;
+    color: #047857;
+    font-weight: 600;
+  }
+
+  .print-grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .print-stat-card {
+    border: 1px solid #e5e7eb;
+    background: #f9fafb !important;
+    border-radius: 6px;
+    padding: 6px 8px;
+    text-align: center;
+  }
+  .print-stat-label {
+    font-size: 7pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #6b7280;
+    margin-bottom: 2px;
+  }
+  .print-stat-value {
+    font-size: 12pt;
+    font-family: 'DM Serif Display', serif;
+    color: #111827;
+    font-weight: 700;
+  }
+
+  .print-section-box {
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 7px 10px;
+    margin-bottom: 7px;
+    background: #ffffff;
+  }
+  .print-box-title {
+    font-size: 8pt;
+    font-weight: 700;
+    color: #b8860b;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .print-phases-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
+  }
+  .print-phase-item {
+    background: #f9fafb !important;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 5px 6px;
+    text-align: center;
+  }
+
+  .print-footer {
+    margin-top: auto;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 4px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 7pt;
+    color: #9ca3af;
+  }
+
+  .print-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 7.5pt;
+    margin-top: 2px;
+  }
+  .print-table th {
+    background: #f3f4f6 !important;
+    color: #111827 !important;
+    border: 1px solid #d1d5db;
+    padding: 3.5px 2px;
+    font-weight: 700;
+    text-align: right;
+    font-size: 6.8pt;
+    text-transform: uppercase;
+  }
+  .print-table th:first-child, .print-table td:first-child {
+    text-align: left;
+    font-weight: 700;
+  }
+  .print-table th:nth-child(2), .print-table td:nth-child(2) {
+    text-align: center;
+  }
+  .print-table td {
+    border: 1px solid #e5e7eb;
+    padding: 2.8px 2px;
+    text-align: right;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  .print-table tr:nth-child(even) td {
+    background: #f9fafb !important;
+  }
+}
 </style>
 </head>
 <body>
@@ -201,8 +399,9 @@ body {
 <nav class="nav-top">
   <div class="nav-brand" id="nav-brand">Retraite Décaissement</div>
   <div class="nav-top-actions">
-    <button class="btn-sm" onclick="toggleTheme()" style="padding: 6px 10px;">☀️/🌙</button>
-    <button class="btn-sm" onclick="toggleToolsModal()" style="padding: 6px 10px;">⚙️</button>
+    <button class="btn-sm" onclick="imprimerRapportPDF()" title="Imprimer ou Exporter en PDF" style="padding: 6px 12px; background: var(--bg3); border-color: var(--gold); color: var(--gold); font-weight: 600;">🖨️ Imprimer / PDF</button>
+    <button class="btn-sm" onclick="toggleTheme()" style="padding: 6px 10px;" title="Changer le thème">☀️/🌙</button>
+    <button class="btn-sm" onclick="toggleToolsModal()" style="padding: 6px 10px;" title="Options & Sauvegarde">⚙️</button>
   </div>
 </nav>
 
@@ -227,7 +426,8 @@ body {
 <div id="modal-tools" onclick="if(event.target===this) toggleToolsModal()">
   <div class="modal-content">
     <div style="font-weight: 700; font-size: 16px; margin-bottom: 8px;">Options & Actions</div>
-    <button class="btn-sm btn-primary" onclick="recalculerTout(); toggleToolsModal();">⟳ Recalculer</button>
+    <button class="btn-sm btn-primary" onclick="imprimerRapportPDF(); toggleToolsModal();">🖨️ Imprimer / Exporter en PDF</button>
+    <button class="btn-sm" onclick="recalculerTout(); toggleToolsModal();">⟳ Recalculer</button>
     <button class="btn-sm" onclick="exportData(); toggleToolsModal();">⬇ Sauvegarder fichier .json</button>
     <button class="btn-sm" onclick="document.getElementById('importFile').click(); toggleToolsModal();">⬆ Charger fichier .json</button>
     <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
@@ -239,8 +439,15 @@ body {
 
 <!-- SOMMAIRE -->
 <div id="section-sommaire" class="section active">
-  <div class="page-title">En un coup d'œil</div>
-  <div class="page-subtitle">Résumé de la sécurité financière</div>
+  <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; gap: 8px;">
+    <div>
+      <div class="page-title">En un coup d'œil</div>
+      <div class="page-subtitle" style="margin-bottom: 0;">Résumé de la sécurité financière</div>
+    </div>
+    <button class="btn-sm btn-primary" onclick="imprimerRapportPDF()" style="white-space: nowrap; box-shadow: 0 2px 8px rgba(212,175,55,0.25);">
+      🖨️ Imprimer / PDF
+    </button>
+  </div>
 
   <div class="hero-card">
     <div class="hero-title">SÉCURITÉ FINANCIÈRE JUSQU'À</div>
@@ -342,8 +549,15 @@ body {
 
 <!-- DETAILS -->
 <div id="section-details" class="section">
-  <div class="page-title">Tableau Annuel Détaillé</div>
-  <div class="page-subtitle">Projection complète année par année</div>
+  <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; gap: 8px;">
+    <div>
+      <div class="page-title">Tableau Annuel Détaillé</div>
+      <div class="page-subtitle" style="margin-bottom: 0;">Projection complète année par année</div>
+    </div>
+    <button class="btn-sm btn-primary" onclick="imprimerRapportPDF()" style="white-space: nowrap; box-shadow: 0 2px 8px rgba(212,175,55,0.25);">
+      🖨️ Imprimer / PDF
+    </button>
+  </div>
 
   <div class="card" style="overflow-x:auto; padding: 8px;">
     <table class="data-table">
@@ -367,6 +581,9 @@ body {
 </div>
 
 </div>
+
+<!-- RAPPORT IMPRIMABLE (PAGE 1: SOMMAIRE, PAGE 2: TABLEAU DÉTAILLÉ) -->
+<div id="print-report"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
@@ -404,6 +621,7 @@ const DEFAULT_INPUTS = {
   rrqHomme: 16667, psvHomme: 9024, pensionPDHomme: 16777,
   ageFinGogo: 76, ageFinSlowgo: 81, inflation: 0.023, rendement: 0.04,
   tauxImpots: 0.20,
+  ageDebutFerr: 72,
   travailFemme: 30000, travailHomme: 10000, travailFinAnneeFemme: 2027, travailFinAnneeHomme: 2027,
   venteMaisonAnnee: 2036, venteMaisonMontant: 300000
 };
@@ -438,7 +656,22 @@ let APP = {
   resultats: null, chartCapital: null, chartSources: null
 };
 
-const FERR_RATES = { 71:0.0528, 72:0.0540, 73:0.0553, 74:0.0567, 75:0.0582, 76:0.0598, 77:0.0617, 78:0.0636, 79:0.0658, 80:0.0682, 81:0.0708, 82:0.0738, 83:0.0771, 84:0.0808, 85:0.0851 };
+/* BARÈME OFFICIEL ARC/REVENU QUÉBEC DES RETRAITS MINIMUMS FERR */
+const FERR_RATES = {
+  71: 0.0528, 72: 0.0540, 73: 0.0553, 74: 0.0567, 75: 0.0582,
+  76: 0.0598, 77: 0.0617, 78: 0.0636, 79: 0.0658, 80: 0.0682,
+  81: 0.0708, 82: 0.0738, 83: 0.0771, 84: 0.0808, 85: 0.0851,
+  86: 0.0899, 87: 0.0955, 88: 0.1015, 89: 0.1079, 90: 0.1148,
+  91: 0.1222, 92: 0.1302, 93: 0.1391, 94: 0.1490, 95: 0.2000
+};
+
+function getFerrRate(ageAu1erJanvier) {
+  if (ageAu1erJanvier < 71) {
+    return ageAu1erJanvier > 0 ? (1 / (90 - ageAu1erJanvier)) : 0;
+  }
+  if (ageAu1erJanvier >= 95) return 0.20;
+  return FERR_RATES[ageAu1erJanvier] || 0.20;
+}
 
 function toggleTheme() { document.body.classList.toggle('light-theme'); }
 
@@ -473,6 +706,7 @@ function projeterDecaissement() {
   const inp = APP.inputs;
   const duree = 30;
   const tImpots = inp.tauxImpots !== undefined ? inp.tauxImpots : 0.20;
+  const ageDebutFerr = inp.ageDebutFerr !== undefined ? inp.ageDebutFerr : 72;
 
   let st = {
     reerF: parseFloat(inp.reerFemme)||0, celiF: parseFloat(inp.celiFemme)||0, nonEnregF: parseFloat(inp.nonEnregFemme)||0,
@@ -509,18 +743,28 @@ function projeterDecaissement() {
     }
 
     const capDebut = st.reerF + st.celiF + st.nonEnregF + st.reerH + st.celiH + st.nonEnregH;
-    const ferrF = ageF >= 71 ? st.reerF * (FERR_RATES[Math.min(ageF, 85)] || 0.09) : 0;
-    const ferrH = ageH >= 71 ? st.reerH * (FERR_RATES[Math.min(ageH, 85)] || 0.09) : 0;
+    
+    // Règle fiscale FERR : Selon l'ARC, le 1er retrait obligatoire s'applique l'année des 72 ans, basé sur l'âge au 1er janv (71 ans = 5.28%)
+    const ferrF = ageF >= ageDebutFerr ? st.reerF * getFerrRate(ageDebutFerr === 72 ? (ageF - 1) : ageF) : 0;
+    const ferrH = ageH >= ageDebutFerr ? st.reerH * getFerrRate(ageDebutFerr === 72 ? (ageH - 1) : ageH) : 0;
     const ferrOblig = ferrF + ferrH;
 
     st.reerF -= ferrF; st.reerH -= ferrH;
 
     const revenuImposable = rentesFixes + travailAnnuel + ferrOblig;
-    const impotsEstimes = revenuImposable * tImpots;
-    const revenuNetDisponible = revenuImposable - impotsEstimes;
+    const impotsEstimesBase = revenuImposable * tImpots;
+    const revenuNetDisponible = revenuImposable - impotsEstimesBase;
     const manqueAGagner = Math.max(0, depenses - revenuNetDisponible);
+    const surplusNet = Math.max(0, revenuNetDisponible - depenses);
+
+    // Si les rentes et retraits FERR obligatoires dépassent les dépenses nettes, le surplus après impôt est réinvesti
+    if (surplusNet > 0) {
+      st.nonEnregF += surplusNet / 2;
+      st.nonEnregH += surplusNet / 2;
+    }
 
     let retraitExtra = 0;
+    let retraitReerTaxable = 0;
     if (manqueAGagner > 0) {
       let reste = manqueAGagner;
       const celiTot = st.celiF + st.celiH;
@@ -543,9 +787,12 @@ function projeterDecaissement() {
           const pigerR = Math.min(reste / (1 - tImpots), reerTot);
           st.reerF -= pigerR * (st.reerF / reerTot); st.reerH -= pigerR * (st.reerH / reerTot);
           retraitExtra += pigerR;
+          retraitReerTaxable = pigerR;
         }
       }
     }
+
+    const impotsEstimes = impotsEstimesBase + (retraitReerTaxable * tImpots);
 
     st.reerF = Math.max(0, st.reerF) * (1 + inp.rendement);
     st.reerH = Math.max(0, st.reerH) * (1 + inp.rendement);
@@ -564,6 +811,7 @@ function projeterDecaissement() {
 
   APP.resultats = { lignes };
   renderSommaireView();
+  preparerRapportImprimable();
 }
 
 function renderSommaireView() {
@@ -745,14 +993,25 @@ function showDonneesSubTab(tab, btnEl) {
       </div>`;
   } else if (tab === 'hypotheses') {
     const tImp = (inp.tauxImpots !== undefined ? inp.tauxImpots : 0.20) * 100;
+    const ageFerr = inp.ageDebutFerr !== undefined ? inp.ageDebutFerr : 72;
     c.innerHTML = `
       <div class="card">
-        <div class="card-title">Ages Limites & Rendements</div>
+        <div class="card-title">Âges Limites & Rendements</div>
         <div class="form-group"><label class="form-label">Âge fin Go-Go</label><input type="number" class="form-input" value="${inp.ageFinGogo}" oninput="setInp('ageFinGogo',parseInt(this.value)||76)"></div>
         <div class="form-group"><label class="form-label">Âge fin Slow-Go</label><input type="number" class="form-input" value="${inp.ageFinSlowgo}" oninput="setInp('ageFinSlowgo',parseInt(this.value)||81)"></div>
         <div class="form-group"><label class="form-label">Rendement des placements (%)</label><input type="number" step="0.1" class="form-input" value="${(inp.rendement*100).toFixed(1)}" oninput="setInp('rendement',parseFloat(this.value)/100||0.04)"></div>
         <div class="form-group"><label class="form-label">Inflation (%)</label><input type="number" step="0.1" class="form-input" value="${(inp.inflation*100).toFixed(1)}" oninput="setInp('inflation',parseFloat(this.value)/100||0.023)"></div>
         <div class="form-group"><label class="form-label">Taux d'imposition estimé (%)</label><input type="number" step="1" class="form-input" value="${tImp.toFixed(0)}" oninput="setInp('tauxImpots',parseFloat(this.value)/100||0.20)"></div>
+        <div class="form-group">
+          <label class="form-label">Début du retrait obligatoire FERR</label>
+          <select class="form-input" onchange="setInp('ageDebutFerr', parseInt(this.value))">
+            <option value="72" ${ageFerr === 72 ? 'selected' : ''}>72 ans (Norme fiscale ARC : conversion à 71 ans, 1er retrait à 72 ans)</option>
+            <option value="71" ${ageFerr === 71 ? 'selected' : ''}>71 ans (Retrait anticipé dès l'année de conversion à 71 ans)</option>
+          </select>
+          <div style="font-size:11px; color:var(--text2); margin-top:5px; line-height:1.4;">
+            ℹ️ <strong>Règle fiscale canadienne :</strong> Le REER doit être converti en FERR avant le 31 décembre de l'année des <strong>71 ans</strong>. Le premier retrait obligatoire s'applique l'année des <strong>72 ans</strong> (taux de 5,28 % basé sur l'âge de 71 ans au 1er janvier).
+          </div>
+        </div>
       </div>`;
   }
 }
@@ -815,9 +1074,21 @@ function save() { localStorage.setItem('retraite_decaissement_v1_budget', JSON.s
 function load() {
   const b = localStorage.getItem('retraite_decaissement_v1_budget');
   const i = localStorage.getItem('retraite_decaissement_v1_inputs');
-  if (b) APP.budget = JSON.parse(b);
-  if (i) APP.inputs = JSON.parse(i);
+  if (b) {
+    try { APP.budget = JSON.parse(b); } catch (e) {}
+  }
+  if (i) {
+    try {
+      const parsed = JSON.parse(i);
+      APP.inputs = Object.assign({}, DEFAULT_INPUTS, parsed);
+    } catch (e) {
+      APP.inputs = JSON.parse(JSON.stringify(DEFAULT_INPUTS));
+    }
+  } else {
+    APP.inputs = JSON.parse(JSON.stringify(DEFAULT_INPUTS));
+  }
   if (APP.inputs.tauxImpots === undefined) APP.inputs.tauxImpots = 0.20;
+  if (APP.inputs.ageDebutFerr === undefined) APP.inputs.ageDebutFerr = 72;
 }
 
 function recalculerTout() { save(); projeterDecaissement(); updatePhaseTabLabels(); }
@@ -833,11 +1104,195 @@ function importData(e) {
     try {
       const data = JSON.parse(ev.target.result);
       if (data.budget) APP.budget = data.budget;
-      if (data.inputs) APP.inputs = data.inputs;
+      if (data.inputs) APP.inputs = Object.assign({}, DEFAULT_INPUTS, data.inputs);
       save(); renderBudget(); recalculerTout(); alert('Importation réussie !');
     } catch { alert('Erreur lors de l\'importation'); }
   };
   reader.readAsText(file);
+}
+
+function preparerRapportImprimable() {
+  const inp = APP.inputs;
+  if (!APP.resultats || !APP.resultats.lignes || !APP.resultats.lignes.length) {
+    return;
+  }
+  const lignes = APP.resultats.lignes;
+  const calcB = (p) => (APP.budget[p] || []).reduce((s, c) => s + c.items.reduce((si, i) => si + (parseFloat(i.mensuel)||0) * 12, 0), 0);
+  const bGogo = calcB('gogo'), bSlowgo = calcB('slowgo'), bNogo = calcB('nogo');
+  const epargneTotale = inp.reerFemme + inp.celiFemme + inp.nonEnregFemme + inp.reerHomme + inp.celiHomme + inp.nonEnregHomme;
+  const rentesFixes = (lignes[0] ? lignes[0].rentesFixes : (inp.rrqFemme + inp.psvFemme + inp.rrqHomme + inp.psvHomme + inp.pensionPDFemme + inp.pensionPDHomme));
+  const l95 = lignes.find(row => row.ageF >= 95) || lignes[lignes.length - 1];
+  
+  let statutSante = "✅ Vos économies couvrent 100 % de vos besoins tout au long de votre retraite.";
+  let ageCouverture = "95+ ans";
+  if (l95 && l95.capFin <= 0) {
+    const anneeEpuisement = lignes.find(r => r.capFin <= 0);
+    ageCouverture = (anneeEpuisement ? anneeEpuisement.ageF : 90) + " ans";
+    statutSante = `⚠️ Attention : Épuisement projeté du capital vers ${anneeEpuisement ? anneeEpuisement.annee : 'l\'âge de ' + ageCouverture}.`;
+  }
+
+  const dateAujourdhui = new Date().toLocaleDateString('fr-CA', { year: 'numeric', month: 'long', day: 'numeric' });
+  const container = document.getElementById('print-report');
+  if (!container) return;
+
+  container.innerHTML = `
+    <!-- PAGE 1 : SOMMAIRE & GRANDES LIGNES -->
+    <div class="print-page">
+      <div class="print-header">
+        <div>
+          <div class="print-title">Plan de Retraite & Décaissement</div>
+          <div class="print-subtitle">Rapport Sommaire & Orientations Financières • ${inp.prenomFemme} & ${inp.prenomHomme}</div>
+        </div>
+        <div class="print-meta">
+          <div><strong>Date d'émission :</strong> ${dateAujourdhui}</div>
+          <div><strong>Horizon :</strong> 2026 à ${2026 + lignes.length - 1} (${lignes.length} ans)</div>
+        </div>
+      </div>
+
+      <div class="print-hero">
+        <div class="print-hero-title">Diagnostic de Sécurité Financière</div>
+        <div class="print-hero-val">${ageCouverture}</div>
+        <div class="print-hero-sub">${statutSante}</div>
+      </div>
+
+      <div class="print-grid-3">
+        <div class="print-stat-card">
+          <div class="print-stat-label">Épargne Initiale Totale</div>
+          <div class="print-stat-value" style="color:#b8860b;">${fmt(epargneTotale)}</div>
+          <div style="font-size:7pt; color:#6b7280; margin-top:2px;">REER: ${fmt(inp.reerFemme + inp.reerHomme)} | CELI: ${fmt(inp.celiFemme + inp.celiHomme)}</div>
+        </div>
+        <div class="print-stat-card">
+          <div class="print-stat-label">Rentes Garanties (An 1)</div>
+          <div class="print-stat-value" style="color:#008b8b;">${fmt(rentesFixes)} / an</div>
+          <div style="font-size:7pt; color:#6b7280; margin-top:2px;">RRQ: ${fmt(inp.rrqFemme + inp.rrqHomme)} | PSV: ${fmt(inp.psvFemme + inp.psvHomme)} | Privée: ${fmt(inp.pensionPDHomme + inp.pensionPDFemme)}</div>
+        </div>
+        <div class="print-stat-card">
+          <div class="print-stat-label">Budget Annuel Go-Go</div>
+          <div class="print-stat-value" style="color:#111827;">${fmt(bGogo)} / an</div>
+          <div style="font-size:7pt; color:#6b7280; margin-top:2px;">${fmt(bGogo / 12)} / mois (jusqu'à ${inp.ageFinGogo} ans)</div>
+        </div>
+      </div>
+
+      <div class="print-section-box">
+        <div class="print-box-title">1. Budget de Vie par Phase (Dépenses en dollars courants de 2026)</div>
+        <div class="print-phases-grid">
+          <div class="print-phase-item">
+            <div style="font-weight:700; font-size:8.5pt; color:#b8860b;">⚡ Phase Go-Go</div>
+            <div style="font-size:8pt; color:#4b5563;">Actuel à ${inp.ageFinGogo} ans</div>
+            <div style="font-size:11pt; font-weight:700; color:#111827; margin:2px 0;">${fmt(bGogo)} / an</div>
+            <div style="font-size:7.5pt; color:#6b7280;">(${fmt(bGogo / 12)} / mois)</div>
+          </div>
+          <div class="print-phase-item">
+            <div style="font-weight:700; font-size:8.5pt; color:#2563eb;">🕐 Phase Slow-Go</div>
+            <div style="font-size:8pt; color:#4b5563;">${inp.ageFinGogo + 1} à ${inp.ageFinSlowgo} ans</div>
+            <div style="font-size:11pt; font-weight:700; color:#111827; margin:2px 0;">${fmt(bSlowgo)} / an</div>
+            <div style="font-size:7.5pt; color:#6b7280;">(${fmt(bSlowgo / 12)} / mois)</div>
+          </div>
+          <div class="print-phase-item">
+            <div style="font-weight:700; font-size:8.5pt; color:#4b5563;">🏠 Phase No-Go</div>
+            <div style="font-size:8pt; color:#4b5563;">${inp.ageFinSlowgo + 1} ans et plus</div>
+            <div style="font-size:11pt; font-weight:700; color:#111827; margin:2px 0;">${fmt(bNogo)} / an</div>
+            <div style="font-size:7.5pt; color:#6b7280;">(${fmt(bNogo / 12)} / mois)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="print-section-box">
+        <div class="print-box-title">2. Hypothèses Économiques & Paramètres de Projection</div>
+        <table style="width:100%; font-size:8pt; border-collapse:collapse;">
+          <tr>
+            <td style="padding:2.5px 0; width:50%;"><strong>Rendement annuel des placements :</strong> ${(inp.rendement * 100).toFixed(1)} %</td>
+            <td style="padding:2.5px 0; width:50%;"><strong>Taux d'inflation annuel :</strong> ${(inp.inflation * 100).toFixed(1)} %</td>
+          </tr>
+          <tr>
+            <td style="padding:2.5px 0;"><strong>Taux d'imposition effectif estimé :</strong> ${( (inp.tauxImpots || 0.20) * 100 ).toFixed(0)} %</td>
+            <td style="padding:2.5px 0;"><strong>Retrait FERR obligatoire :</strong> Début à ${inp.ageDebutFerr || 72} ans (barème officiel ARC/RQ)</td>
+          </tr>
+          <tr>
+            <td style="padding:2.5px 0;"><strong>Travail autonome (${inp.prenomFemme}) :</strong> ${fmt(inp.travailFemme)}/an jusqu'en ${inp.travailFinAnneeFemme}</td>
+            <td style="padding:2.5px 0;"><strong>Travail autonome (${inp.prenomHomme}) :</strong> ${fmt(inp.travailHomme)}/an jusqu'en ${inp.travailFinAnneeHomme}</td>
+          </tr>
+          <tr>
+            <td colspan="2" style="padding:2.5px 0;"><strong>Vente de la maison :</strong> Prévue en ${inp.venteMaisonAnnee} pour un gain net non imposable de ${fmt(inp.venteMaisonMontant)}.</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="print-section-box" style="margin-bottom:0;">
+        <div class="print-box-title">3. Règles Fiscales et Stratégie FERR</div>
+        <ul style="font-size:7.8pt; color:#374151; padding-left:16px; line-height:1.4; margin:0;">
+          <li><strong>Conversion REER en FERR :</strong> La loi fiscale canadienne oblige la conversion du REER au plus tard le 31 décembre de l'année des <strong>71 ans</strong>.</li>
+          <li><strong>Premier retrait obligatoire :</strong> Le premier retrait obligatoire s'applique l'année des <strong>72 ans</strong> (5,28 % basé sur l'âge de 71 ans au 1er janvier).</li>
+          <li><strong>Protection du capital :</strong> Les retraits obligatoires FERR qui excèdent les dépenses nettes sont conservés et réinvestis dans l'épargne non enregistrée.</li>
+        </ul>
+      </div>
+
+      <div class="print-footer">
+        <div>Retraite Décaissement • Sommaire Exécutif</div>
+        <div>Page 1 sur 2</div>
+      </div>
+    </div>
+
+    <!-- PAGE 2 : TABLEAU ANNUEL DÉTAILLÉ -->
+    <div class="print-page">
+      <div class="print-header" style="margin-bottom:6px; padding-bottom:5px;">
+        <div>
+          <div class="print-title" style="font-size:15pt;">Tableau Annuel Détaillé des Projections</div>
+          <div class="print-subtitle" style="font-size:8pt;">Projection financière sur 30 ans avec indexation à l'inflation et rendements composés</div>
+        </div>
+        <div class="print-meta">
+          <div>${inp.prenomFemme} & ${inp.prenomHomme}</div>
+          <div>Page 2 sur 2</div>
+        </div>
+      </div>
+
+      <table class="print-table">
+        <thead>
+          <tr>
+            <th>Année</th>
+            <th>Âge (S/C)</th>
+            <th>Capital Début</th>
+            <th>Rentes Fixes</th>
+            <th>Extra/Vente</th>
+            <th>FERR Oblig.</th>
+            <th>Retrait Extra</th>
+            <th>Dépenses</th>
+            <th>Impôts Est.</th>
+            <th>Capital Fin</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${lignes.map(l => `
+            <tr>
+              <td>${l.annee}</td>
+              <td>${l.ageF} / ${l.ageH}</td>
+              <td>${fmt(l.capDebut)}</td>
+              <td style="color:#008b8b;">${fmt(l.rentesFixes)}</td>
+              <td style="color:#059669;">${fmt(l.revenusExtra)}</td>
+              <td style="color:#2563eb;">${fmt(l.ferrObligatoire)}</td>
+              <td style="color:#dc2626; font-weight:600;">${fmt(l.retraitExtra)}</td>
+              <td>${fmt(l.depenses)}</td>
+              <td>${fmt(l.impotsEstimes)}</td>
+              <td style="font-weight:700; color:#b8860b;">${fmt(l.capFin)}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+
+      <div class="print-footer" style="margin-top:auto;">
+        <div>Retraite Décaissement • Projection détaillée 2026–${2026 + lignes.length - 1}</div>
+        <div>Page 2 sur 2</div>
+      </div>
+    </div>
+  `;
+}
+
+function imprimerRapportPDF() {
+  projeterDecaissement();
+  preparerRapportImprimable();
+  setTimeout(() => {
+    window.print();
+  }, 100);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -845,6 +1300,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const el = document.querySelector('.sub-tabs .sub-tab');
   if (el) showDonneesSubTab('profil', el);
   projeterDecaissement();
+  preparerRapportImprimable();
 });
 </script>
 </body>
